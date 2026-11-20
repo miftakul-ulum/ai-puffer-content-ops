@@ -11,7 +11,7 @@ Bila tugasnya mengerjakan, mengaudit, atau memeriksa artikel klien (`klien/<Nama
 
 1. `AGENT.md`: pipeline, checklist, aturan konten (Section 11), dan mode pintasan `/artikel` (Section 10).
 2. `aturan/kerja-tanpa-skill.md`: metode menulis ulang, aturan fakta, disiplin bukti, berkas meta, dan aturan kanibalisasi.
-3. Muat skill wajib dari folder `skills/` repo ini: `skills/dci-seo-auditor/SKILL.md` (induk), `skills/antislop-copywriting/SKILL.md` + `skills/antislop/SKILL.md` (Tahap humanize), dan `skills/verification-before-completion/SKILL.md` (sebelum klaim selesai).
+3. Muat skill wajib dari folder `skills/` repo ini: `skills/dci-seo-auditor/SKILL.md` (induk), `skills/antislop-copywriting/SKILL.md` + `skills/antislop/SKILL.md` (Tahap humanize), dan `skills/verification-before-completion/SKILL.md` (sebelum klaim selesai). Pustaka SEO opsional (keluarga `blog`, `ai-seo`, `programmatic-seo`, `seo-audit`, `schema`, `site-architecture`, `competitors`, `competitor-profiling`, `content-strategy`, `directory-submissions`, `free-tools`, `marketing-tools`, `aso`) juga ada di `skills/` — pakai sesuai kebutuhan, tidak wajib.
 
 Untuk tugas lain di repo ini (misalnya mengubah skrip di `alat/`), berkas di atas tidak perlu dibaca. Setelah mengubah skrip, jalankan `python -I -X utf8 alat/uji-tools.py`.
 

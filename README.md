@@ -58,7 +58,7 @@ Gerbang tidak menjamin peringkat. Skor Rank Math adalah skor plugin, bukan sinya
 ├── PROMPT PINTASAN.md       # panduan /artikel, isi perintah, cara memasang, prompt cadangan
 ├── CHANGELOG.txt            # riwayat perubahan sistem
 ├── CLAUDE.md                # impor AGENTS.md untuk Claude Code
-├── skills/                  # skill WAJIB repo: dci-seo-auditor, antislop, antislop-copywriting, verification-before-completion
+├── skills/                  # skill WAJIB (dci-seo-auditor, antislop, antislop-copywriting, verification-before-completion) + pustaka SEO opsional (keluarga blog, ai-seo, programmatic-seo, seo-audit, schema, site-architecture, competitors, content-strategy, dst.)
 ├── perintah/
 │   └── artikel.md           # sumber netral command /artikel (tanpa format khusus agent)
 ├── alat/
@@ -93,6 +93,10 @@ Skill pipeline **wajib** dan ikut di repo, folder `skills/`:
 | `blog-seo-check`, `blog-write`, `blog-outline` | OPSIONAL | Bila tersedia di komputer operator; hasilnya dipetakan ke checklist `AGENT.md` |
 
 Cara memuat: baca berkas `skills/<nama>/SKILL.md` langsung (agent apa pun), atau pasang ke folder skill agent bila mekanismenya mendukung. Aturan isi tetap menang: bila bertentangan dengan `AGENT.md` Section 11, Section 11 yang berlaku.
+
+### Pustaka SEO opsional
+
+Folder `skills/` juga memuat pustaka SEO lengkap yang ikut repo (bukan unduhan): keluarga `blog` lengkap (router + 31 sub-skill: strategy, calendar, brief, cluster, analyze, audit, seo-check, schema, chart, image, repurpose, factcheck, decay, discourse, persona, brand, style, multilingual/translate/localize/locale-audit, notebooklm, audio, google, flow) plus `ai-seo`, `programmatic-seo`, `seo-audit`, `schema`, `site-architecture`, `competitors`, `competitor-profiling`, `content-strategy`, `directory-submissions`, `free-tools`, `marketing-tools`, dan `aso`. Sifatnya opsional per kebutuhan — dipakai untuk pekerjaan di luar pipeline inti (audit situs klien, perencanaan bulanan, riset kompetitor, konten multibahasa). Sumber asli: sinkronisasi trae-skills; lisensi tiap skill tertulis di `SKILL.md`-nya (umumnya MIT).
 
 ## Memulai
 

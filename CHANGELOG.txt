@@ -25,6 +25,22 @@ Diubah
   repo dimuat dengan membaca SKILL.md-nya; skill luar repo tidak diunduh.
 
 
+[1.1.0] - 2026-11-21
+--------------------
+
+Ditambahkan
+- Pustaka SEO lengkap ikut repo di skills/ (36 folder, ±3,9 MB): keluarga blog lengkap
+  (blog router + 31 sub-skill termasuk strategy, calendar, brief, cluster, analyze, audit,
+  schema, factcheck, decay, discourse, multilingual/translate/localize/locale-audit, image,
+  chart, audio, google, flow, notebooklm, persona, brand, style, repurpose, taxonomy) dan
+  11 skill SEO non-blog (ai-seo, aso, programmatic-seo, seo-audit, schema, site-architecture,
+  competitors, competitor-profiling, content-strategy, directory-submissions, free-tools,
+  marketing-tools). Sifatnya OPSIONAL per kebutuhan - tidak dipanggil oleh pipeline inti.
+- AGENT.md Section 9: tabel pustaka SEO opsional per kelompok pemakaian.
+- README.md: bagian "Pustaka SEO opsional" dan pembaruan struktur folder.
+- AGENTS.md: catatan pustaka SEO opsional di langkah muat skill wajib.
+
+
 [0.9.0] - 2026-11-20
 --------------------
 

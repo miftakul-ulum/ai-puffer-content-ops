@@ -227,24 +227,41 @@ Aturan ledger: kolom Hash wajib 16 karakter hex agar baris terbaca. Jangan mengu
 - Angka harga hanya "kisaran"/"tergantung"; tanpa statistik/testimoni/nama/penghargaan fiktif.
 - Klaim butuh verifikasi live (harga kompetitor, fakta kota) → tandai eksplisit, jangan mengarang sumber.
 
-## 9. Skill Wajib (ikut repo, folder `skills/`)
+## 9. Skill Wajib dan Pustaka SEO (ikut repo, folder `skills/`)
 
-Skill adalah **WAJIB** dan sudah disediakan di repo — tidak diunduh dari luar. Muat dengan membaca
-`SKILL.md`-nya (agent dengan mekanisme skill boleh memuatnya lewat mekanisme masing-masing; hasil sama).
+Skill WAJIB dan pustaka SEO opsional keduanya **ikut repo** — tidak diunduh dari luar. Muat dengan
+membaca `SKILL.md`-nya (agent dengan mekanisme skill boleh memuatnya lewat mekanisme masing-masing; hasil sama).
 
-| Tahap | Skill (folder `skills/`) | Status | Peran |
-|---|---|---|---|
-| Semua | `dci-seo-auditor` | WAJIB — muat pertama | Skill induk: urutan pipeline, rujukan berkas aturan dan alat |
-| 3 — Humanize | `antislop-copywriting` + `antislop` (core) | WAJIB | Filter anti-deteksi inti: 0 em dash, tanpa rule-of-three paksa, tanpa negative parallelism ("bukan hanya X tetapi Y"), tanpa rangkaian fragmen staccato, tanpa fake-candid opener dan buzzword kosong; PERTAHANKAN "signs of human writing" (variasi panjang kalimat, detail spesifik, asides, tension) |
-| 5 — Sebelum klaim selesai | `verification-before-completion` | WAJIB | Verifikasi dengan bukti terukur (word count, keyword density, hasil detector) — bukan perasaan |
-| 2/4 — Audit & SEO | `blog-seo-check` | OPSIONAL (bila ada di komputer operator) | Kerangka validasi on-page — hasilnya dipetakan ke checklist Section 5a, bukan dipakai mentah |
-| 1 — Draft baru | `blog-write`, `blog-outline` | OPSIONAL | Hanya bila artikel ditulis dari nol, bukan parafrase draft |
+### Skill WAJIB
+
+| Tahap | Skill (folder `skills/`) | Peran |
+|---|---|---|
+| Semua | `dci-seo-auditor` | Skill induk — muat pertama; urutan pipeline, rujukan berkas aturan dan alat |
+| 3 — Humanize | `antislop-copywriting` + `antislop` (core) | Filter anti-deteksi inti: 0 em dash, tanpa rule-of-three paksa, tanpa negative parallelism ("bukan hanya X tetapi Y"), tanpa rangkaian fragmen staccato, tanpa fake-candid opener dan buzzword kosong; PERTAHANKAN "signs of human writing" (variasi panjang kalimat, detail spesifik, asides, tension) |
+| 5 — Sebelum klaim selesai | `verification-before-completion` | Verifikasi dengan bukti terukur (word count, keyword density, hasil detector) — bukan perasaan |
+
+### Pustaka SEO opsional (ikut repo, pakai sesuai kebutuhan)
+
+Keluarga `blog` lengkap (router + 31 sub-skill) dan 11 skill SEO lain:
+
+| Kelompok | Skill | Kapan dipakai |
+|---|---|---|
+| Router | `blog` | Melihat seluruh sub-command keluarga blog |
+| Perencanaan | `blog-strategy`, `blog-calendar`, `blog-brief`, `blog-cluster` | Strategi per klien, kalender editorial bulanan, brief 1 artikel, cluster hub-and-spoke |
+| Menulis | `blog-write`, `blog-outline`, `blog-style` | Draft baru, outline SERP, mempelajari gaya penulis |
+| Evaluasi & pemeliharaan | `blog-analyze`, `blog-audit`, `blog-seo-check`, `blog-decay`, `blog-cannibalization` | Skor 100 poin, audit kesehatan, checklist SEO (pembanding gerbang), penurunan GSC, keyword overlap (pembanding cek_lintas) |
+| Fakta & riset | `blog-factcheck`, `blog-discourse`, `blog-notebooklm` | Verifikasi statistik ke sumber; riset diskusi 30 hari terakhir; query notebook |
+| Teknis & output | `blog-schema`, `blog-chart`, `blog-image`, `blog-repurpose` | JSON-LD, SVG chart, gambar, repurposing lintas kanal |
+| Multilingual | `blog-multilingual`, `blog-translate`, `blog-localize`, `blog-locale-audit` | Bila klien minta konten multi-bahasa |
+| SEO non-blog | `ai-seo`, `programmatic-seo`, `seo-audit`, `schema`, `site-architecture`, `competitors`, `competitor-profiling`, `content-strategy`, `directory-submissions`, `free-tools`, `marketing-tools`, `aso` | Audit situs klien, halaman skala, schema, arsitektur, kompetitor, backlink direktori |
+
+Catatan `research-guide` adalah skill riset umum di komputer operator (bukan di repo).
 
 Aturan pemakaian:
 1. Skill WAJIB tersedia di repo ini (`skills/`) — jangan meminta operator mengunduh, jangan berhenti bila folder hilang; laporkan bahwa repo tidak lengkap.
 2. Skill adalah **filter**, bukan pengganti aturan: bila aturan AI Puffer (Section 11) bertentangan dengan preferensi generik skill, **Section 11 menang** (contoh: marker percakapan "jujur saja," memang diwajibkan Section 11; antislop hanya membatasi frekuensinya maks 1–2×).
 3. `aturan/kerja-tanpa-skill.md` tetap menjadi inti metode (namanya berarti metode inti yang tidak bergantung skill eksternal) — tetap dibaca sebelum Tahap 3.
-4. Skill opsional lain bila tersedia di komputer operator (bukan di repo): `blog-write`, `blog-outline` (draft dari nol), `blog-factcheck` (sebelum publish), `copy-editing` (permintaan REVISION).
+4. Skill pustaka SEO bersifat **opsional per kebutuhan** (contoh sah: `blog-factcheck` sebelum publish, `blog-seo-check` ulang setelah revisi detector, `copy-editing` dari komputer operator bila ada permintaan REVISION). Fungsi analisis skrip keluarga blog (`analyze_blog.py` dsb.) berjalan lewat skill ZCode asli bila tersedia; tanpa itu, gunakan gerbang `alat/` sebagai sumber angka.
 
 ## 10. Mode Pintasan (input: nama perusahaan + nama bulan)
 

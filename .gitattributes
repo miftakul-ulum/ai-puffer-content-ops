@@ -1,0 +1,3 @@
+# Akhir baris seragam LF di repo dan di semua komputer karyawan (Windows/macOS/Linux).
+# Mencegah peringatan "LF will be replaced by CRLF" dan file dengan akhir baris campur.
+* text=auto eol=lf

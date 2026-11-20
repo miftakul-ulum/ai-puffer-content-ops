@@ -2,7 +2,7 @@
 
 > Format mengikuti `AGENT.md` Section 7. Laporan klien ini hanya ditulis di sini, bukan di AGENT.md.
 
-## Ledger (dibaca oleh `.zcode/cek-status.py`, jangan ubah urutan kolom)
+## Ledger (dibaca oleh `alat/cek-status.py`, jangan ubah urutan kolom)
 
 | Draft | Hash | Audit | Humanize | ZeroGPT |
 |---|---|---|---|---|
@@ -12,7 +12,7 @@
 
 ## Jasa Catering Instansi Blitar — 2026-11-20
 - File final: `Jasa Catering Instansi Blitar - Humanized.txt` (draft asli tidak ditimpa)
-- Metrik: 2.098 kata | paragraf 1: 206 kata | keyword 33× di teks, 35 dengan 2 alt text (density ±1,6%)
+- Metrik (putaran 1, sudah diganti): 2.098 kata | paragraf 1: 206 kata | keyword 33× di teks, 35 dengan 2 alt text (density ±1,6%). Angka final setelah Putaran 2: 2.073 kata, paragraf 1: 202 kata, keyword 31×, density ±1,50%.
 - Temuan audit draft mentah yang diperbaiki:
   - Paragraf 1 hanya ±70 kata (rule ≥200)
   - Inbound link berada sebelum `<!--more-->` (rule: setelahnya)
@@ -48,13 +48,13 @@ Riset langsung ke dokumen resmi (detail dan tanggalnya ada di `FAKTA-SEO.md`). P
   Google tidak menetapkan angka).
 
 Hasil pemeriksaan:
-- Gerbang `.zcode/cek-artikel.py`: 0 FAIL, 0 WARN (2.073 kata; P1 202 kata; keyword 31×; h2 berkeyword 3;
+- Gerbang `alat/cek-artikel.py`: 0 FAIL, 0 WARN (2.073 kata; P1 202 kata; keyword 31×; h2 berkeyword 3;
   format WordPress lolos uji render `wpautop` asli — more-tag, nbsp, gambar, blok kontak, shortcode utuh).
 - ZeroGPT versi final: **"Your Text is Human written", AI 3,7%** (14.764 karakter prosa).
 
-Hal yang perlu keputusan/perhatian Mas Ulum:
+Hal yang perlu keputusan/perhatian operator:
 1. Halaman live `artikel/jasa-catering-instansi-blitar/` masih menampilkan **draf mentah**; versi Humanized belum dipasang.
 2. Meta description di halaman live menjanjikan "harga termurah" dan menyebut "syukuran" — klaim tak terverifikasi dan di luar topik instansi. Usulan pengganti (untuk Rank Math): title `Jasa Catering Instansi Blitar | Salimah Catering`; description `Jasa catering instansi Blitar untuk rapat, bimtek, dan kegiatan dinas: nasi kotak, kotak kudapan, prasmanan, dan katering harian dari Salimah Catering.` (215 karakter, keyword di awal; Google tidak menetapkan batas panjang, snippet dipotong sesuai lebar perangkat).
 3. `0812-9278-9024` muncul hanya di tag `<title>` beranda sebagai bagian dari judul SEO; nomor yang dipakai sebagai kontak di beranda (3×), halaman layanan, footer, dan artikel adalah `0857-3627-0963` (sama dengan CLIENT.md). Jadi ini inkonsistensi judul halaman, bukan dua nomor kontak yang bersaing. Bila ingin rapi, judul SEO beranda sebaiknya diselaraskan dengan nomor kontak resmi.
 4. Verifikasi KBBI massal tertunda: kuota pencarian harian tanpa akun terpakai saat riset. Jalankan `--kbbi --simpan-kata` di lain hari untuk verifikasi penuh; untuk sementara kamus memuat hasil tinjauan manual seluruh kata artikel.
-  - Kisaran harga nasi box ("belasan ribu" dan "tiga puluhan ribu") adalah perkiraan umum berlabel kisaran, bukan daftar harga Salimah. Sesuaikan bila klien punya harga resmi.
+5. Kisaran harga nasi box ("belasan ribu" dan "tiga puluhan ribu") adalah perkiraan umum berlabel kisaran, bukan daftar harga Salimah. Sesuaikan bila klien punya harga resmi.

@@ -1,4 +1,4 @@
-# Kamus kata sah artikel AI Puffer (huruf kecil, satu kata/frasa per baris).
+# Kamus kata sah DCI SEO Auditor (huruf kecil, satu kata/frasa per baris).
 # Sumber: verifikasi KBBI Daring (kbbi.kemendikdasmen.go.id) 2026-11-20 + tinjauan manual.
 # Kata bentuk tidak baku TIDAK dimasukkan (lihat daftar NON_BAKU di cek-artikel.py).
 # Tambah kata baru hanya setelah dicek KBBI.

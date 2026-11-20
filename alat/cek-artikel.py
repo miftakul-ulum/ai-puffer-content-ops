@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Gerbang kualitas artikel AI Puffer: Rank Math + format WordPress + Anti-Typo Gate.
+"""DCI SEO Auditor - gerbang kualitas artikel: Rank Math + format WordPress + Anti-Typo Gate.
 
 Pakai (dari ROOT project):
-  python3 -I -X utf8 .zcode/cek-artikel.py "<Klien>/artikel/<YYYY Bulan>/<Slug> - Humanized.txt"
+  python3 -I -X utf8 alat/cek-artikel.py "klien/<Klien>/artikel/<YYYY Bulan>/<Slug> - Humanized.txt"
   Opsi:
     --kw "Fokus Keyword"   batalin deteksi otomatis (default: anchor permalink pertama)
     --kbbi                 cek kata yang belum ada di kamus ke KBBI Daring (online)
@@ -22,7 +22,7 @@ from urllib import parse as uparse
 from urllib import request as ureq
 
 ROOT = Path(__file__).resolve().parent.parent
-KAMUS = ROOT / ".zcode" / "kamus-kata.txt"
+KAMUS = ROOT / "alat" / "kamus-kata.txt"
 UA = {"User-Agent": "Mozilla/5.0"}
 VOID = {"br", "img", "hr", "meta", "link", "input", "source"}
 RE_KATA = re.compile(r"[a-zà-ÿ]+(?:-[a-zà-ÿ]+)*")
@@ -59,7 +59,7 @@ def simpan_kamus(kata_baru):
     ada = baca_kamus()
     gab = sorted(ada | {k.lower() for k in kata_baru})
     KAMUS.write_text(
-        "# Kamus kata sah artikel AI Puffer (huruf kecil, satu kata/frasa per baris).\n"
+        "# Kamus kata sah DCI SEO Auditor (huruf kecil, satu kata/frasa per baris).\n"
         "# Kata lolos KBBI Daring via --kbbi --simpan-kata. Kata bentuk tidak baku tidak disimpan.\n"
         + "\n".join(gab) + "\n", encoding="utf8")
 
@@ -116,6 +116,8 @@ def kbbi_cek(kata):
         t = ureq.urlopen(req, timeout=20).read().decode("utf8", "replace")
     except Exception as e:
         return "ERROR", str(e)[:80]
+    if "batas maksimum dalam sehari" in t:
+        return "KUOTA", "pencarian harian KBBI Daring habis"   # halaman kuota punya <h2> sendiri: jangan dibaca sebagai kata
     if "Entri tidak ditemukan" in t:
         return "TIDAK_ADA", ""
     h2 = re.search(r"(?is)<h2[^>]*>(.*?)</h2>", t)
@@ -124,7 +126,6 @@ def kbbi_cek(kata):
     lemma = re.sub(r"(?s)<[^>]+>", " ", h2.group(1))
     lemma = html.unescape(lemma).split("⇢")[0].strip()
     lemma = lemma.split("bentuk tidak baku")[0].strip()
-    m = re.search(r"bentuk tidak baku:\s*([a-zà-ÿ .]+)", lemma + " ", re.I)
     if "bentuk tidak baku" in lemma:
         baku = lemma.split("bentuk tidak baku")[0].strip().replace(".", "")
         return "NON_BAKU", baku
@@ -142,11 +143,13 @@ def cek_bahasa(teks, izin):
         bagian = kata.split("-")
         if kata not in kamus and not all(b in kamus for b in bagian):
             peringatan.append(kata)
+    # Tanpa peka kapital: kata di awal kalimat ("Silahkan ...") tetap tertangkap.
+    # Kata dari "Istilah dipertahankan"/nama klien/fokus keyword (izin) dikecualikan.
     for kata, baku in sorted(NON_BAKU.items()):
-        if re.search(r"\b" + kata + r"\b", teks):
+        if kata not in izin and re.search(r"\b" + kata + r"\b", teks, re.I):
             gagal.append("ejaan tidak baku: '%s' -> '%s'" % (kata, baku))
     for kata in sorted(KATA_ASING):
-        if re.search(r"\b" + kata + r"\b", teks):
+        if kata not in izin and re.search(r"\b" + kata + r"\b", teks, re.I):
             gagal.append("kata asing: '%s' (ganti padanan Indonesia baku)" % kata)
     for frasa in KLICHE:
         if frasa in teks.lower():
@@ -155,7 +158,12 @@ def cek_bahasa(teks, izin):
         gagal.append("em/en dash di posisi %d" % m.start())
     for m in re.finditer(r"[“”‘’]", teks):
         gagal.append("tanda kutip miring di posisi %d" % m.start())
-    for m in re.finditer(r"(?<![.!?>\n])\bAnda\b", teks):
+    for m in re.finditer(r"\bAnda\b", teks):
+        sebelum = teks[:m.start()]
+        isi = sebelum.rstrip()
+        jeda = sebelum[len(isi):]
+        if not isi or "\n" in jeda or isi[-1] in ".!?":
+            continue                                      # awal kalimat/paragraf: kapital sah
         gagal.append("'Anda' kapital di tengah kalimat: ...%s" % teks[max(0, m.start() - 25):m.start() + 8])
     for m in re.finditer(r"\b([a-zà-ÿ]{3,}) \1\b", teks):
         gagal.append("kata kembar: '%s %s'" % (m.group(1), m.group(1)))
@@ -220,6 +228,112 @@ def cek_angka(raw):
     return temuan
 
 
+KLAIM_SUPERLATIF = ["termurah", "terbaik", "terlengkap", "nomor 1", "no. 1", "nomor satu", "paling murah"]
+
+
+def slug_dari(teks):
+    return re.sub(r"[^a-z0-9]+", "-", teks.lower()).strip("-")
+
+
+def cek_meta(p, raw, kw):
+    """Periksa berkas pendamping '<nama> - Meta.txt' (judul SEO, deskripsi meta, slug).
+
+    Aturan Rank Math di AGENT.md mewajibkan keyword di judul SEO, deskripsi meta, dan slug,
+    tetapi ketiganya tidak ada di badan artikel. Format berkas (satu field per baris):
+      Judul SEO: ...
+      Deskripsi meta: ...
+      Slug: ...
+    """
+    gagal, peringatan, info = [], [], []
+    dasar = p.stem[:-len(" - Humanized")] if p.stem.endswith(" - Humanized") else p.stem
+    f = p.parent / (dasar + " - Meta.txt")
+    if not f.exists():
+        peringatan.append("berkas meta '%s' tidak ada: keyword di judul SEO, deskripsi meta, dan slug "
+                          "belum bisa diverifikasi" % f.name)
+        return gagal, peringatan, info
+    isi = f.read_text(encoding="utf8").replace("\r", "")
+    medan = {}
+    for m in re.finditer(r"^\s*(judul seo|deskripsi meta|slug)\s*:\s*(.*?)\s*$", isi, re.I | re.M):
+        medan[m.group(1).lower()] = m.group(2)
+    for nama in ("judul seo", "deskripsi meta", "slug"):
+        if not medan.get(nama):
+            gagal.append("berkas meta: field '%s' kosong atau tidak ada" % nama)
+    judul, desk, slug = (medan.get(k, "") for k in ("judul seo", "deskripsi meta", "slug"))
+    k = kw.lower()
+    if judul and k not in judul.lower():
+        gagal.append("judul SEO tidak memuat keyword '%s'" % kw)
+    if judul and len(judul) > 60:
+        peringatan.append("judul SEO %d karakter, di atas ±60 yang tampil di desktop (Rank Math)" % len(judul))
+    if desk and k not in desk.lower():
+        gagal.append("deskripsi meta tidak memuat keyword '%s'" % kw)
+    elif desk and desk.lower().find(k) + len(k) > 160:
+        peringatan.append("keyword di deskripsi meta berada setelah karakter ke-160 (Rank Math minta di 120-160 awal)")
+    if desk and len(desk) > 160:
+        info.append("deskripsi meta %d karakter: Google memotong sesuai lebar perangkat, bukan batas tetap" % len(desk))
+    for teks_meta, nama in ((judul, "judul SEO"), (desk, "deskripsi meta")):
+        for klaim in KLAIM_SUPERLATIF:
+            if klaim in teks_meta.lower():
+                peringatan.append("%s memuat klaim superlatif '%s': pastikan terbukti, atau ganti" % (nama, klaim))
+    if slug:
+        if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug):
+            gagal.append("slug '%s' bukan huruf kecil/angka dengan tanda hubung" % slug)
+        if slug_dari(kw) not in slug:
+            gagal.append("slug '%s' tidak memuat keyword (%s)" % (slug, slug_dari(kw)))
+        m = re.search(r'<a href="[^"]*?/([^"/]+)/?"><b><i>', raw)
+        if m and m.group(1) != slug:
+            gagal.append("slug meta '%s' berbeda dari slug di anchor permalink '%s'" % (slug, m.group(1)))
+    return gagal, peringatan, info
+
+
+RE_ANCHOR_KW = re.compile(r'<a href="[^"]*"><b><i>([^<]+)</i></b></a>')
+
+
+def kata_isi(raw):
+    """Kata prosa untuk perbandingan antar artikel (tanpa blok kontak boilerplate)."""
+    t = teks_tampak(raw)
+    t = "\n".join(b for b in t.split("\n")
+                  if not re.search(r"Hubungi Kami Dari Kontak Resmi|^\s*(WA|Telepon|Email)\s*:", b))
+    return re.findall(r"[a-zà-ÿ0-9]+", t.lower())
+
+
+def rangkaian(kata, n=8):
+    return {" ".join(kata[i:i + n]) for i in range(len(kata) - n + 1)}
+
+
+def cek_lintas(p, raw, kw):
+    """Bandingkan dengan artikel final lain di klien/: kanibalisasi keyword dan kalimat yang disalin.
+
+    Kanibalisasi hanya dihitung dalam satu klien (satu situs). Kalimat yang disalin dihitung
+    di semua klien: FAKTA-SEO.md poin 5 melarang menyalin kalimat antar artikel.
+    """
+    gagal, peringatan = [], []
+    diri = p.resolve()
+    folder_klien = diri.parent.parent.parent
+    akar = folder_klien.parent
+    punyaku = rangkaian(kata_isi(raw))
+    token_kw = set(kw.lower().split())
+    for f in sorted(akar.glob("*/artikel/*/* - Humanized.txt")):
+        f = f.resolve()
+        klien = f.parent.parent.parent
+        if f == diri or klien.name.startswith("_"):
+            continue
+        r2 = f.read_text(encoding="utf8").replace("\r", "")
+        label = "%s / %s" % (klien.name, f.stem)
+        m = RE_ANCHOR_KW.search(r2)
+        kw2 = m.group(1).strip() if m else ""
+        if klien == folder_klien and kw2:
+            if kw2.lower() == kw.lower():
+                gagal.append("kanibalisasi: keyword '%s' sama dengan artikel lain di klien yang sama (%s)" % (kw, label))
+            else:
+                t2 = set(kw2.lower().split())
+                if token_kw and t2 and len(token_kw & t2) * 1.0 / len(token_kw | t2) >= 0.6:
+                    peringatan.append("keyword mirip dengan '%s' (%s): pastikan maksud pencariannya berbeda" % (kw2, label))
+        bersama = len(punyaku & rangkaian(kata_isi(r2)))
+        if bersama >= 3:
+            gagal.append("kalimat disalin: %d rangkaian 8 kata sama dengan %s" % (bersama, label))
+    return gagal, peringatan
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("artikel")
@@ -233,9 +347,23 @@ def main():
     kamus = baca_kamus()
 
     p = Path(a.artikel)
-    raw = p.read_text(encoding="utf8").replace("\r", "")
+    if not p.is_file():
+        print("GAGAL: berkas '%s' tidak ada. Periksa nama dan folder (huruf besar kecil dan spasi harus sama)." % a.artikel)
+        sys.exit(2)
+    try:
+        raw = p.read_text(encoding="utf8").replace("\r", "")
+    except UnicodeDecodeError as e:
+        print("GAGAL: '%s' bukan UTF-8 (byte tidak sah di posisi %d). Simpan ulang berkas sebagai UTF-8." % (p.name, e.start))
+        sys.exit(2)
     folder = p.parent
     cli = baca_client(folder)
+    kosong = [k for k, v in cli.items() if v.startswith("[") and v.endswith("]") and k != "shortcode"]
+    if "shortcode" in cli and "shortcode tombol WA" in cli["shortcode"]:
+        kosong.append("shortcode")
+    if kosong:
+        print("GAGAL: CLIENT.md masih berisi isian bawaan template (%s). Isi semua field dulu "
+              "(lihat AGENT.md Section 3)." % ", ".join(sorted(kosong)))
+        sys.exit(2)
     nama = cli.get("nama", "")
     url_cli = (cli.get("url") or "").rstrip("/")
     shortcode = cli.get("shortcode", "")
@@ -245,6 +373,21 @@ def main():
     if not kw:
         m = re.search(r"<a href=\"[^\"]*\"><b><i>([^<]+)</i></b></a>", raw)
         kw = m.group(1).strip() if m else ""
+    if not kw and a.draft:
+        # Draft tanpa anchor permalink adalah temuan audit, bukan alasan berhenti (kontrak: exit 0).
+        teks = teks_tampak(raw)
+        g_bahasa, _, _ = cek_bahasa(teks, izin)
+        temuan = (["anchor permalink paragraf pertama tidak ada, fokus keyword tidak terdeteksi "
+                   "(analisis keyword dilewati; jalankan ulang dengan --kw)"]
+                  + g_bahasa + cek_angka(raw) + analisis_ritme(raw))
+        print("=" * 60)
+        print("AUDIT DRAFT : %s (tanpa keyword)" % p.name)
+        print("=" * 60)
+        for i, x in enumerate(temuan, 1):
+            print("TEMUAN %2d: %s" % (i, x))
+        print("-" * 60)
+        print("Total %d temuan: bahan Tahap 3 (humanize), bukan penghalang." % len(temuan))
+        sys.exit(0)
     if not kw:
         print("GAGAL: fokus keyword tidak terdeteksi (pakai --kw)")
         sys.exit(2)
@@ -338,6 +481,16 @@ def main():
     elif "rel=\"noopener noreferrer\"" not in raw.split("wikipedia.org")[1][:200]:
         gagal.append("tautan Wikipedia tanpa rel noopener noreferrer")
 
+    # --- Judul SEO, deskripsi meta, slug (hanya gerbang final) ---
+    if not a.draft:
+        g_meta, w_meta, i_meta = cek_meta(p, raw, kw)
+        gagal += g_meta
+        peringatan += w_meta
+        info += i_meta
+        g_lintas, w_lintas = cek_lintas(p, raw, kw)
+        gagal += g_lintas
+        peringatan += w_lintas
+
     # --- Anti-Typo Gate ---
     g_bahasa, w_bahasa, unik = cek_bahasa(teks, izin)
     gagal += g_bahasa
@@ -353,6 +506,11 @@ def main():
         for n, w in enumerate(belum, 1):
             status, saran = kbbi_cek(w)
             time.sleep(0.25)
+            if status == "KUOTA":
+                peringatan.append("KBBI: kuota harian habis setelah %d dari %d kata; sisa kata belum dicek, "
+                                  "ulangi besok (hasil yang lolos tetap tersimpan)" % (n - 1, len(belum)))
+                print("  KUOTA     pencarian harian habis, lookup dihentikan")
+                break
             if status == "OK":
                 lolos.append(w)
                 print("  OK        %s" % w)
@@ -408,4 +566,5 @@ def main():
     sys.exit(1 if gagal else 0)
 
 
-main()
+if __name__ == "__main__":
+    main()

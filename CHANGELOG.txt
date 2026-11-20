@@ -1,11 +1,277 @@
-CHANGELOG - Content Ops AI Puffer
-=================================
+CHANGELOG - DCI SEO Auditor
+===========================
 Author: Mas Wondho - Duta Corpora Indonesia (DCI)
 Copyright (c) 2026 Duta Corpora Indonesia - All rights reserved
 
 Isi file ini: perubahan pada SISTEM kerja project (AGENT.md, command, panduan).
-Bukan laporan artikel klien. Laporan artikel ada di <Klien>/artikel/<YYYY Bulan>/LAPORAN.md.
+Bukan laporan artikel klien. Laporan artikel ada di klien/<Klien>/artikel/<YYYY Bulan>/LAPORAN.md.
 Format: versi terbaru di atas. Tiap entri dikelompokkan Ditambahkan, Diubah, Dihapus, Belum teruji.
+
+
+[0.8.0] - 2026-11-20
+--------------------
+
+Perubahan struktur: folder agent keluar dari repo, perintah /artikel menjadi global.
+
+Dipindah
+- .zcode/cek-status.py, cek-artikel.py, uji-tools.py, kamus-kata.txt menjadi alat/ (git mv, riwayat
+  terjaga). Semua rujukan path di skrip, uji, AGENT.md, AGENTS.md, README, PROMPT PINTASAN, dan
+  LAPORAN klien diperbarui. Folder .zcode/ dihapus dari repo.
+
+Ditambahkan
+- perintah/artikel.md: sumber NETRAL perintah /artikel, tanpa kepala (frontmatter) khusus agent.
+  Memuat dua penanda, {{ARGUMEN}} dan {{PYTHON}}, yang diganti saat pemasangan.
+- alat/pasang-perintah.py: membuat salinan perintah dengan format tiap agent. Didukung: TRAE
+  (Name/Description, folder .trae/commands), ZCode (.zcode/commands), Claude Code (.claude/commands,
+  argumen $ARGUMENTS). Opsi: --daftar, --global, --cek. Tidak menyentuh command lain di folder itu.
+  Format diambil dari dokumentasi tiap agent (tautan ada di keluaran --daftar).
+- uji-tools.py: 22 uji baru untuk perintah dan pemasang, total 71.
+- PROMPT PINTASAN.md ditulis ulang: dua cara memanggil (command dan prompt biasa), penjelasan tiap
+  bagian isi perintah, cara memasang per agent, dan pemecahan masalah bila perintah tidak muncul.
+
+Diubah
+- .gitignore: .trae/, .zcode/, .claude/, .agents/, .codex/, .cursor/, .gemini/, .opencode/ diabaikan.
+  Sebelumnya hanya .trae/commands/ yang dibagikan. .trae/commands/artikel.md dilepas dari index
+  (git rm --cached); berkas di disk tetap ada dan dipasang ulang oleh pemasang.
+- AGENT.md, AGENTS.md, README: struktur folder, cara memanggil, dan Section 10 disesuaikan. AGENTS.md
+  kini menyebut perintah yang agent-netral.
+
+Terverifikasi
+- Simulasi karyawan baru: tree yang akan di-commit disalin ke folder bersih tanpa folder agent,
+  pemasang dijalankan, lalu uji (71 lulus), cek-status, dan gerbang Salimah berjalan normal.
+
+Belum teruji
+- /artikel belum dipanggil dari menu ZCode atau Claude Code. Format diambil dari dokumentasi dan dari
+  command nyata di komputer ini (Claude Code dan ZCode memakai kepala description/argument-hint,
+  TRAE memakai Name/Description), bukan dari uji langsung.
+- Codex menghapus custom prompts (Maret 2026) dan memakai skills. Codex, Cursor, Gemini, dan agent
+  lain tidak didukung pemasang; mereka memakai prompt biasa. Agent baru bisa ditambah dengan satu
+  entri di AGEN pada pasang-perintah.py.
+- Pemasang --global menulis ke folder rumah. Belum diuji pada komputer selain ini.
+
+
+[0.7.1] - 2026-11-20
+--------------------
+
+Cross-check menyeluruh: kode, rujukan path, perintah di dokumen, simulasi klien baru, konsistensi isi.
+Rujukan path dan Section di semua dokumen sudah benar. Tiga celah kode ditemukan lewat kasus tepi
+dan semuanya dibuktikan dulu (kode lama gagal, kode baru lulus):
+
+Diperbaiki
+- cek-artikel.py: berkas tidak ada atau bukan UTF-8 menampilkan traceback Python mentah. Kini pesan
+  jelas dengan kode keluar 2.
+- cek-status.py: satu berkas bukan UTF-8 membuat skrip crash dan menyembunyikan status semua draft
+  lain di folder itu. Kini berkas itu berstatus RUSAK dan draft lain tetap dinilai.
+- cek-status.py dan cek-artikel.py: klien baru yang menyalin klien/_TEMPLATE tetapi belum mengisi
+  CLIENT.md mendapat FAIL menyesatkan ("nama klien '[nama bisnis klien]' tidak muncul") dan draft
+  lengkap terbaca MENUNGGU. Kini berhenti dengan pesan "isian bawaan template" (kode keluar 2).
+
+Ditambahkan
+- Status RUSAK (status ketujuh) di cek-status.py, AGENT.md Section 4 dan 10, PROMPT PINTASAN.md,
+  command /artikel.
+- Kode keluar cek-artikel.py didokumentasikan: 0 lulus, 1 ada FAIL, 2 masukan tidak bisa diperiksa.
+- uji-tools.py: 7 uji baru (masukan buruk 5, template belum diisi 2), total 49.
+  Pada skrip versi lama 6 di antaranya gagal (diukur ulang sebelum commit). Satu uji lain, "draft
+  kosong tetap exit 0", memang sudah lulus pada skrip lama sehingga hanya menjaga agar tidak mundur.
+
+Diubah
+- README ditulis ulang: bagian "Yang dijamin dan yang tidak" (gerbang bukan jaminan peringkat), tabel
+  status dan kode keluar, struktur terbaru, peringatan agar tidak membuat banyak akun KBBI, angka
+  ZeroGPT Salimah ditandai berasal dari catatan dan belum diverifikasi ulang, bagian batasan.
+  "Tiga skrip" dikoreksi menjadi dua skrip gerbang.
+- AGENT.md Section 10 langkah 5: "Muat skill" menjadi "Baca aturan/kerja-tanpa-skill.md" (sisa
+  kata-kata lama yang bertentangan dengan Section 9).
+- AGENT.md Tahap 4: perilaku kuota KBBI dijelaskan.
+
+Terverifikasi
+- Sintaks ketiga skrip valid untuk Python 3.8 (ast feature_version), sesuai klaim README.
+- Semua perintah di dokumen dijalankan apa adanya: exit code sesuai yang dijanjikan.
+
+Belum teruji
+- Kasus tepi dicoba pada Windows saja. Perilaku di macOS dan Linux belum dicoba.
+
+
+[0.7.0] - 2026-11-20
+--------------------
+
+Ditambahkan
+- aturan/kerja-tanpa-skill.md: aturan kerja mandiri (metode menulis ulang, tanda tulisan mesin, aturan
+  fakta, disiplin bukti sebelum klaim selesai, berkas meta, kanibalisasi). Ditulis dengan kata sendiri,
+  tidak menyalin teks skill. Karyawan tidak perlu memasang skill apa pun. Skill menjadi pelengkap opsional.
+- Gerbang final memeriksa judul SEO, deskripsi meta, dan slug lewat berkas pendamping
+  "<artikel> - Meta.txt" (Judul SEO / Deskripsi meta / Slug). Sebelumnya aturan "keyword di judul SEO,
+  deskripsi meta, slug" ada di AGENT.md tetapi tidak pernah diperiksa dan tidak ada tempat menyimpannya.
+  Berkas meta tidak ada: WARN. Keyword tidak ada, slug tidak sesuai, atau field kosong: FAIL.
+  Klaim superlatif ("termurah", "terbaik", dan sejenisnya) di judul/deskripsi: WARN.
+- Gerbang final memeriksa kanibalisasi (keyword sama dalam satu klien: FAIL, mirip: WARN) dan kalimat
+  yang disalin (3 rangkaian 8 kata atau lebih sama dengan artikel final lain, lintas klien: FAIL).
+  Folder berawalan "_" dilewati. FAKTA-SEO.md poin 5 sebelumnya tidak dijaga skrip.
+- klien/Salimah Catering/.../Jasa Catering Instansi Blitar - Meta.txt (judul 48 karakter, deskripsi
+  151 karakter, slug sama dengan anchor permalink; isi dari usulan di LAPORAN, bukan karangan baru).
+- uji-tools.py: 15 uji baru (meta 9, lintas 6), total 42. Pada skrip versi lama 10 di antaranya gagal.
+
+Diubah
+- cek-status.py: berkas "<nama> - Meta.txt" tidak lagi dianggap draft (sebelumnya terbaca MENUNGGU,
+  dibuktikan dengan uji nyata).
+- AGENT.md Section 9: skill tidak lagi WAJIB, bukan syarat jalannya pipeline. Section 4 Tahap 4 dan
+  command /artikel disesuaikan.
+- README: struktur dan prasyarat disesuaikan, tidak lagi menyebut skill sebagai syarat.
+
+Ditambahkan (AGENTS.md)
+- AGENTS.md (±500 token) sebagai penunjuk pendek yang dimuat otomatis oleh agent yang membaca AGENTS.md
+  (TRAE bila opsinya aktif, Codex, dan lainnya). Isinya hanya kapan membaca AGENT.md dan
+  aturan/kerja-tanpa-skill.md, lima larangan inti, dan perintah menjalankan. AGENT.md (±8.000 token)
+  sengaja tidak dijadikan berkas yang dimuat otomatis, supaya tidak memakan token pada tugas non-artikel.
+- CLAUDE.md kini mengimpor AGENTS.md (sebelumnya AGENT.md).
+
+Belum teruji
+- Satu kali uji-tools.py sempat gagal pada 8 pemanggilan dengan kode keluar 0xC0000005 (crash proses
+  Python di Windows). Enam putaran berikutnya lulus 42 dari 42. Penyebabnya belum diketahui dan tidak
+  bisa direproduksi. Bila muncul lagi, catat kondisinya.
+- Cek kalimat disalin memakai jendela 8 kata dan ambang 3 rangkaian. Angka ini tebakan wajar, belum
+  dikalibrasi pada artikel nyata lebih dari satu klien.
+- Asal pasti verification-before-completion dan antislop-copywriting belum terverifikasi sepenuhnya;
+  isinya tidak disalin ke repo.
+- AGENTS.md hanya penunjuk: agent tetap harus mau membuka AGENT.md saat tugasnya artikel. Belum diuji
+  pada agent selain TRAE. Di TRAE, opsi "Include AGENTS.md in the context" harus diaktifkan di
+  Settings > Rules & Memories, dan itu pengaturan per komputer.
+
+
+[0.6.0] - 2026-11-20
+--------------------
+
+Diubah
+- Platform kerja: TRAE (sebelumnya ZCode). Command /artikel dipindah dari .zcode/commands/ ke
+  .trae/commands/ (git mv). Format frontmatter mengikuti command TRAE yang sudah ada (Name,
+  Description), argumen dibaca dari teks setelah /artikel, daftar skill menjadi instruksi di isi
+  command karena TRAE tidak mengenal kunci skills di frontmatter.
+- .gitignore: .trae/ tidak lagi diabaikan seluruhnya. Hanya .trae/commands/ yang ikut repo supaya
+  karyawan lain menerima command; isi .trae/ lainnya (catatan lokal) tetap diabaikan.
+- README, AGENT.md, PROMPT PINTASAN.md: sebutan ZCode diganti TRAE, path command dan folder skill
+  diperbarui. Perintah di command memakai "python" (Windows), bukan "python3".
+- Folder .zcode/ tetap dipakai untuk skrip gerbang, kamus, dan uji (nama folder tidak diubah agar
+  path di dokumen, docstring, dan LAPORAN klien tidak berubah).
+
+Belum teruji
+- /artikel belum dipanggil dari menu "/" di TRAE. Format frontmatter meniru graphify-update.md,
+  bukan hasil uji langsung.
+- Kunci "skills:" lama dibuang dari frontmatter. Pemuatan keempat skill kini bergantung pada
+  agent mengikuti instruksi teks, tidak otomatis.
+- Nama folder .zcode/ membingungkan karena platform sudah TRAE; belum diganti.
+
+
+[0.5.4] - 2026-11-20
+--------------------
+
+Ditambahkan
+- .gitattributes (* text=auto eol=lf): akhir baris seragam LF di semua komputer karyawan.
+
+Diubah
+- 15 file dikonversi dari CRLF ke LF. Isi tidak berubah: hash ledger Salimah tetap sama, gerbang
+  artikel tetap 0 FAIL, uji-tools tetap lulus semua.
+
+Belum teruji
+- Project ini dipakai di TRAE, bukan ZCode. Menurut dokumentasi TRAE, command project dibaca dari
+  .trae/commands dan rules dari .trae/rules, sedangkan .zcode/commands/artikel.md tidak disebut.
+  .gitignore saat ini mengabaikan .trae/ sehingga command atau skill project tidak ikut repo.
+
+
+[0.5.3] - 2026-11-20
+--------------------
+
+Diubah
+- Repo GitHub diganti nama dari ai-puffer-content-ops menjadi dci-seo-auditor (privat). Remote origin
+  lokal sudah menunjuk ke alamat baru, dan HEAD remote sama dengan HEAD lokal. Salinan repo di
+  komputer lain perlu: git remote set-url origin https://github.com/alecslacker/dci-seo-auditor
+  (alamat lama diarahkan otomatis oleh GitHub, tetapi sebaiknya diperbarui).
+
+
+[0.5.2] - 2026-11-20
+--------------------
+
+Diperbaiki
+- cek-artikel.py --kbbi: saat kuota harian KBBI Daring habis, halaman kuota (punya <h2> sendiri)
+  dibaca sebagai entri kata, sehingga SEMUA kata dilaporkan FAIL "tidak baku -> pencarian anda telah
+  mencapai batas maksimum" (terbukti di uji nyata). Kini status KUOTA: lookup berhenti, satu WARN
+  dengan jumlah kata yang sempat dicek, hasil lolos tetap bisa disimpan. Dibuktikan pada kuota nyata.
+- cek-artikel.py: daftar ejaan tidak baku dan kata asing peka huruf kapital, jadi "Silahkan hubungi
+  kami" di awal kalimat lolos (terbukti: Silahkan, Snack Box, Resiko, Capcay lolos). Kini tidak peka
+  kapital, dan kata di nama klien, "Istilah dipertahankan", serta fokus keyword dikecualikan.
+- cek-artikel.py: cabang mati (variabel m tak terpakai) dibuang. main() dibungkus __main__ agar
+  modul bisa diimpor untuk uji.
+
+Diubah
+- AGENT.md dan README: ditambah catatan bahwa tool untuk karyawan Duta Corpora Indonesia, dan sapaan
+  operator mengikuti AGENTS.md atau persona di komputer masing-masing. "Mas Ulum" diganti "operator" /
+  "pemilik project" di AGENT.md, PROMPT PINTASAN.md, dan LAPORAN Salimah.
+- AGENT.md Section 11: judul HUMAN-LIKE tidak lagi menyebut GPTZero, Originality, Turnitin, Copyscape
+  (tidak pernah dijalankan; Section 6 hanya memakai ZeroGPT). Isi aturan tidak diubah.
+- LAPORAN Salimah: metrik putaran 1 ditandai sudah diganti, angka final dicantumkan; penomoran
+  daftar keputusan dirapikan.
+
+Ditambahkan
+- uji-tools.py: artikel sintetis yang LULUS 0 FAIL, 5 uji mutasi (ejaan, kata asing, more-tag,
+  shortcode, bold keyword), dan 4 uji kbbi_cek dengan halaman palsu tanpa jaringan. Total 27 uji.
+  Pada kode lama 6 dari uji baru gagal, pada kode baru semua lulus.
+
+Belum teruji
+- Verifikasi KBBI massal penuh belum bisa dijalankan: kuota harian tanpa akun habis saat uji.
+- Plagiarisme tetap belum punya alat cek.
+- Daftar NON_BAKU/KATA_ASING hanya 17 dan 13 kata; kata lain mengandalkan kamus dan KBBI.
+
+
+[0.5.1] - 2026-11-20
+--------------------
+
+Diperbaiki
+- cek-artikel.py --draft: draft tanpa anchor permalink sebelumnya keluar dengan exit 2 dan pesan GAGAL,
+  melanggar kontrak "mode audit selalu exit 0". Kini dilaporkan sebagai TEMUAN, sisa audit (ejaan, angka,
+  ritme) tetap jalan, exit 0. Gerbang final tanpa keyword tetap exit 2.
+- cek-artikel.py: cek "Anda" kapital salah menandai kemunculan di awal kalimat yang didahului spasi atau
+  tag HTML (dibuktikan dengan uji: 4 dari 5 kemunculan sah ikut ditandai). Kini hanya kemunculan di
+  tengah kalimat yang ditandai.
+
+Ditambahkan
+- uji-tools.py: 5 uji regresi untuk dua perbaikan di atas (total 18 uji).
+
+Belum teruji
+- Perbaikan "Anda" diuji pada skenario sintetis dan artikel Salimah (15 "Anda" kapital, semua awal
+  kalimat, tetap 0 FAIL). Kalimat yang diawali kutipan atau tanda baca lain belum dicakup.
+
+
+[0.5.0] - 2026-11-20
+--------------------
+
+Ditambahkan
+- Folder klien/ sebagai induk semua data klien. klien/_TEMPLATE/ berisi CLIENT.md kosong dan
+  artikel/YYYY Bulan/LAPORAN.md kosong sebagai cetakan klien baru. Folder berawalan "_" bukan klien.
+
+Diubah
+- Salimah Catering dipindah dari ROOT ke klien/Salimah Catering/ (git mv, riwayat file terjaga).
+- README.md ditulis ulang: positioning Agentic SEO Auditor, alur 5 langkah, struktur baru.
+- Semua path "<Klien>/..." di AGENT.md, command /artikel, PROMPT PINTASAN.md, docstring skrip, dan
+  CHANGELOG menjadi "klien/<Klien>/...". Mode Pintasan melewati folder berawalan "_".
+
+Dihapus
+- "Contoh Perusahaan/" (berisi satu file kosong), digantikan klien/_TEMPLATE/.
+
+Belum teruji
+- /artikel belum dipanggil dari menu "/" dengan struktur baru. Skrip tidak diubah logikanya
+  (CLIENT.md dibaca relatif dari folder bulan), diuji lewat uji-tools.py dan gerbang artikel Salimah.
+
+
+[0.4.1] - 2026-11-20
+--------------------
+
+Diubah
+- Rebrand project: "Content Ops AI Puffer" menjadi "DCI SEO Auditor - Agentic SEO Auditor by Duta
+  Corpora Indonesia". Diganti pada judul README, AGENT.md, PROMPT PINTASAN.md, deskripsi command
+  /artikel, header skrip dan kamus, serta prefix folder uji.
+- Nama "AI Puffer" DIPERTAHANKAN di tempat ia merujuk plugin klien (template Section 11, sumber
+  draft, shortcode) dan pada entri riwayat di bawah.
+
+Belum teruji
+- Nama repo GitHub dan remote git masih ai-puffer-content-ops.
 
 
 [0.4.0] - 2026-11-20

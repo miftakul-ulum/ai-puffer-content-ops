@@ -1,7 +1,7 @@
 # Kamus kata sah DCI SEO Auditor (huruf kecil, satu kata/frasa per baris).
-# Sumber: verifikasi KBBI Daring (kbbi.kemendikdasmen.go.id) 2026-11-20 + tinjauan manual.
+# Sumber: tinjauan manual + verifikasi KBBI Daring 2026-11-20 (sebagian) + wordlist offline 112.651 kata.
 # Kata bentuk tidak baku TIDAK dimasukkan (lihat daftar NON_BAKU di cek-artikel.py).
-# Tambah kata baru hanya setelah dicek KBBI.
+# Tambah kata baru setelah dicek ke KBBI Daring/kbbi.web.id atau ditemukan di kamus-kbbi-offline.txt.
 silakan
 risiko
 mengubah

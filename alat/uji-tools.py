@@ -71,6 +71,29 @@ def uji_status(base):
     cek("status: tanpa CLIENT.md -> gagal jelas", kode != 0 and "CLIENT.md" in out)
 
 
+def uji_status_tanpa_shortcode(base):
+    """Klien tanpa tombol WA AI Puffer: kelengkangan dinilai dari blok kontak + penutup."""
+    klien = base / "Klien Tanpa WA"
+    bulan = klien / "artikel" / "2026 Maret"
+    bulan.mkdir(parents=True, exist_ok=True)
+    (klien / "CLIENT.md").write_text(
+        "| `{client_name}` | Klien Tanpa WA |\n| `{client_url}` | https://tanpawa.example |\n"
+        "| `{client_wa_shortcode}` |  |\n| `{client_phone}` | +62 000 |\n"
+        "| `{client_email}` | a@b.example |\n", encoding="utf8")
+    (bulan / "penutup.txt").write_text(
+        "Pembuka.\n<h3>Kontak dan Informasi Pemesanan</h3>\n"
+        "<ul><li>Telepon resmi tersedia.</li></ul>\n"
+        "Silakan hubungi layanan untuk merencanakan perjalanan kerja sesuai agenda anda.\n",
+        encoding="utf8")
+    (bulan / "buntu.txt").write_text("selesai tapi tanpa blok kontak\n", encoding="utf8")
+    kode, out = jalankan(ROOT / "alat" / "cek-status.py", bulan)
+    cek("status-tanpa-wa: skrip jalan (exit 0)", kode == 0, out[:80])
+    cek("status-tanpa-wa: kontak + penutup -> BARU",
+        re.search(r"BARU\t[0-9a-f]{16}\ttahap_kosong=-\tpenutup\.txt", out) is not None)
+    cek("status-tanpa-wa: tanpa blok kontak -> MENUNGGU",
+        re.search(r"MENUNGGU\t[0-9a-f]{16}\ttahap_kosong=-\tbuntu\.txt", out) is not None)
+
+
 MINI = (
     '<p><a href="https://klienuji.example/artikel/mini"><b><i>Kata Kunci Uji</i></b></a> - Paragraf pembuka. '
     + "Kalimat isi yang cukup panjang untuk dihitung. " * 6 + '</p>\n\n'
@@ -367,33 +390,26 @@ class HalamanPalsu:
         return self.html_teks.encode("utf8")
 
 
-def uji_kbbi():
-    """kbbi_cek diuji dengan halaman palsu (tanpa jaringan)."""
+def uji_wordlist():
+    """Verifikasi bahasa offline: wordlist ada, asing tidak lolos, imbuhan ternormalisasi."""
     import importlib.util
     spec = importlib.util.spec_from_file_location("cek_artikel_uji", ROOT / "alat" / "cek-artikel.py")
     modul = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(modul)
-    asli = modul.ureq.urlopen
-    kasus = {
-        "halaman kuota harian -> KUOTA (bukan dibaca sebagai kata)":
-            ("<h2>Pencarian Anda telah mencapai batas maksimum dalam sehari</h2>", "KUOTA"),
-        "entri tidak ditemukan -> TIDAK_ADA": ("<p>Entri tidak ditemukan</p>", "TIDAK_ADA"),
-        "entri sah -> OK": ("<h2>kata</h2>", "OK"),
-        "halaman tanpa h2 -> ERROR": ("<p>kosong</p>", "ERROR"),
-    }
-    try:
-        for nama, (halaman, harap) in kasus.items():
-            modul.ureq.urlopen = lambda *a, _h=halaman, **k: HalamanPalsu(_h)
-            status, _ = modul.kbbi_cek("kata")
-            cek("kbbi: " + nama, status == harap, "status=%s" % status)
-    finally:
-        modul.ureq.urlopen = asli
+    cek("wordlist: berkas kamus-kbbi-offline.txt ada", modul.WORDLIST.exists())
+    wl = modul.baca_wordlist()
+    cek("wordlist: lebih dari 100.000 kata", len(wl) > 100000, "n=%d" % len(wl))
+    cek("wordlist: 'kotak' ada dan 'box' tidak ada", "kotak" in wl and "box" not in wl)
+    kandidat = modul.dasar_kandidat("dipikirkan")
+    cek("wordlist: dasar_kandidat('dipikirkan') mencapai 'pikir'", "pikir" in kandidat)
+    cek("wordlist: 'katering' terverifikasi lewat wordlist", "katering" in wl)
 
 
 def main():
     with tempfile.TemporaryDirectory(prefix="uji-dci-seo-") as d:
         base = Path(d)
         uji_status(base)
+        uji_status_tanpa_shortcode(base)
         uji_artikel(base)
         uji_artikel_lulus(base)
     with tempfile.TemporaryDirectory(prefix="uji-dci-pasang-") as d:
@@ -406,7 +422,7 @@ def main():
         uji_meta(Path(d))
     with tempfile.TemporaryDirectory(prefix="uji-dci-lintas-") as d:
         uji_lintas(Path(d))
-    uji_kbbi()
+    uji_wordlist()
     print("-" * 60)
     if GAGAL_UJI:
         print("UJI GAGAL: %s" % ", ".join(GAGAL_UJI))

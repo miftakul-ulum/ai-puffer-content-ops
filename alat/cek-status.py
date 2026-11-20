@@ -28,13 +28,14 @@ def baca_shortcode(folder_bulan):
     client = folder_bulan.parent.parent / "CLIENT.md"
     if not client.exists():
         sys.exit(f"GAGAL: {client} tidak ada. Isi CLIENT.md dulu.")
-    m = re.search(r"\{client_wa_shortcode\}`\s*\|\s*`([^`]+)`", client.read_text(encoding="utf-8"))
+    m = re.search(r"(?m)^\|\s*`\{client_wa_shortcode\}`\s*\|\s*([^|]*)\|", client.read_text(encoding="utf-8"))
     if not m:
-        sys.exit("GAGAL: field {client_wa_shortcode} di CLIENT.md kosong atau tidak terbaca.")
-    nilai = m.group(1).strip()
+        sys.exit("GAGAL: field {client_wa_shortcode} di CLIENT.md tidak terbaca.")
+    nilai = m.group(1).strip().strip("`")
     if "shortcode tombol WA" in nilai:
         # Isi bawaan klien/_TEMPLATE/CLIENT.md: operator belum mengisi data klien.
         sys.exit("GAGAL: CLIENT.md masih berisi isian bawaan template. Isi semua field dulu (lihat AGENT.md Section 3).")
+    # Nilai kosong = klien memang tanpa tombol WA AI Puffer; kelengkapan dinilai dari blok kontak.
     return nilai
 
 
@@ -68,7 +69,12 @@ def main(argv):
             print(f"RUSAK\t-\ttahap_kosong=-\t{f.name}\t(bukan UTF-8, simpan ulang sebagai UTF-8)")
             continue
         ada_humanized = (folder / f"{f.stem}{SUFFIX}.txt").exists()
-        lengkap = isi.splitlines()[-1].strip() == shortcode if isi else False
+        if shortcode:
+            lengkap = isi.splitlines()[-1].strip() == shortcode if isi else False
+        else:
+            # Klien tanpa shortcode: tahan draft kecuali ada blok kontak dan penutup setelahnya.
+            kontak = re.search(r"(?i)<h[23][^>]*>[^<]*kontak[^<]*</h[23]>", isi)
+            lengkap = bool(kontak and re.search(r"(?s)</(?:ul|ol)>\s*[^<]{50,}[.!?]\s*$", isi[kontak.end():]))
         row = ledger.get(f.name)
         if row is None:
             status = "TANPA-CATATAN" if ada_humanized else ("BARU" if lengkap else "MENUNGGU")

@@ -8,6 +8,30 @@ Bukan laporan artikel klien. Laporan artikel ada di klien/<Klien>/artikel/<YYYY 
 Format: versi terbaru di atas. Tiap entri dikelompokkan Ditambahkan, Diubah, Dihapus, Belum teruji.
 
 
+[0.9.0] - 2026-11-20
+--------------------
+
+Ditambahkan
+- Wordlist KBBI offline (alat/kamus-kbbi-offline.txt, 112.651 kata) dari turunan KBBI Daring
+  github.com/damzaky/kumpulan-kata-bahasa-indonesia-KBBI. Lapisan kedua verifikasi bahasa setelah
+  kamus approved; kata berimbuhan dinormalisasi ke bentuk dasar sebelum dicek.
+- uji-tools.py: 5 uji wordlist (berkas ada, >100.000 kata, asing tidak ada, normalisasi imbuhan,
+  kata serapan terverifikasi).
+
+Dihapus
+- Lookup KBBI Daring dari cek-artikel.py (opsi --kbbi/--simpan-kata, fungsi kbbi_cek, dan uji
+  halaman palsunya). Alasan: KBBI Daring dan kbbi.web.id sama-sama membatasi pencarian harian
+  tanpa akun (terverifikasi 2026-11-20), sehingga verifikasi massal selalu terhenti. Gerbang
+  kualitas kini sepenuhnya offline dan tidak pernah terhenti kuota.
+
+Diubah
+- cek_bahasa: kata yang tidak ada di kamus maupun wordlist dilaporkan sebagai kata tidak
+  terverifikasi (tinjauan manual), bukan dianggap gagal tanpa pembuktian. Mode draft merangkum
+  daftar itu menjadi satu temuan.
+- AGENT.md (Tahap 4, checklist 5c, mode pintasan), README.md (tabel alat, catatan kuota), dan
+  header alat/kamus-kata.txt disinkronkan.
+
+
 [0.8.0] - 2026-11-20
 --------------------
 

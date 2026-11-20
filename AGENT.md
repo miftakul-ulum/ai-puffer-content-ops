@@ -27,7 +27,8 @@ Template prompt di Section 11 sengaja **klien-global** (100% placeholder `{clien
 ├── alat/pasang-perintah.py       ← memasang /artikel ke TRAE, ZCode, atau Claude Code di komputer ini
 ├── alat/cek-status.py            ← gerbang status: klasifikasi draft sebelum audit (Section 4)
 ├── alat/cek-artikel.py           ← gerbang kualitas: Rank Math + format WP + Anti-Typo (Section 4)
-├── alat/kamus-kata.txt           ← kamus kata sah hasil verifikasi KBBI
+├── alat/kamus-kata.txt           ← kamus kata sah hasil tinjauan manual + verifikasi
+├── alat/kamus-kbbi-offline.txt   ← wordlist KBBI offline (112.651 kata), lapisan verifikasi bahasa
 ├── alat/uji-tools.py             ← uji otomatis semua skrip (jalankan setelah mengubah skrip)
 └── klien/                        ← SEMUA data klien hidup di sini, tidak ada di ROOT
     ├── _TEMPLATE/                ← cetakan klien baru (salin utuh, jangan dikerjakan langsung)
@@ -133,7 +134,12 @@ Skrip memeriksa jumlah kata, paragraf pertama, jumlah/density/bold keyword, head
 (more-tag, nbsp, list, alt, shortcode, kontak), judul SEO/deskripsi meta/slug, kanibalisasi dan kalimat
 yang disalin dari artikel lain di `klien/`, Anti-Typo Gate (ejaan tidak baku, kata asing, em dash,
 "Anda" kapital), dan keluar exit 1 bila ada FAIL. Perbaiki hanya bagian yang gagal, jangan rombak.
-Opsi `--kbbi --simpan-kata` memverifikasi kata yang belum ada di kamus ke KBBI Daring. Pencarian tanpa akun dibatasi harian: bila kuota habis, skrip berhenti dengan satu WARN (bukan FAIL), kata yang lolos tetap tersimpan, dan sisanya diulang di hari berikutnya.
+Verifikasi bahasa berjalan OFFLINE dan berlapis: kata dicek ke kamus approved (`alat/kamus-kata.txt`)
+lalu ke wordlist KBBI offline (`alat/kamus-kbbi-offline.txt`, 112.651 kata; kata berimbuhan dinormalisasi
+ke bentuk dasar dulu). Tidak ada panggilan jaringan di gerbang — KBBI Daring dan kbbi.web.id keduanya
+dibatasi kuota (terverifikasi 2026-11-20), jadi sengaja tidak dipakai. Kata yang tidak ditemukan di
+kedua lapisan dilaporkan sebagai kata tidak terverifikasi (tinjauan manual, atau tambahkan ke kamus
+bila memang baku).
 
 Kode keluar `cek-artikel.py`: `0` tidak ada FAIL, `1` ada FAIL, `2` masukan tidak bisa diperiksa (berkas tidak ada, bukan UTF-8, keyword tidak terdeteksi, atau `CLIENT.md` belum diisi). Kode `2` bukan FAIL artikel: perbaiki masukannya, lalu jalankan ulang.
 Fakta Google/Rank Math yang menjadi dasar ambang ada di `FAKTA-SEO.md` — rujuk situ, jangan ingatan.
@@ -166,7 +172,9 @@ Uji ke ZeroGPT (protokol di Section 6), isi kolom ZeroGPT di ledger (mis. `3,72%
 ### 5c. WordPress + PUEBI + Bahasa Baku
 - [ ] Format H2/H3, nbsp, more-tag, shortcode sesuai Section 11.
 - [ ] EYD: "silakan", kapital hari/bulan, "di" pisah sebagai kata depan.
-- [ ] Semua kata prosa lolos kamus `alat/kamus-kata.txt` (KBBI); kata asing ditulis ulang sesuai Tahap 3.
+- [ ] Semua kata prosa terverifikasi oleh gerbang: kamus `alat/kamus-kata.txt` atau wordlist offline
+  `alat/kamus-kbbi-offline.txt`; kata yang dilaporkan tidak terverifikasi ditinjau manual; kata asing
+  ditulis ulang sesuai Tahap 3.
 - [ ] Format kode aman WordPress: paragraf dipisah baris kosong (wpautop membungkus `<p>`), baris tunggal
   dalam blok kontak menjadi `<br />` (dilakukan WordPress), tanpa komentar blok Gutenberg `<!-- wp:… -->`
   agar wpautop tidak dimatikan (lihat FAKTA-SEO.md bagian WordPress).
@@ -250,7 +258,7 @@ Langkah:
 4. **Jalankan Gerbang Status** (Section 4) pada folder bulan itu. Proses hanya draft berstatus `BARU` (audit penuh) dan `LANJUTKAN` (hanya tahap yang masih `-`). `SELESAI`, `MENUNGGU`, `BERUBAH`, `TANPA-CATATAN`, dan `RUSAK` tidak disentuh dan dilaporkan apa adanya. Tidak ada draft yang diproses → lapor, selesai.
 5. **Baca `aturan/kerja-tanpa-skill.md`** (skill di Section 9 hanya bila tersedia), lalu per draft jalankan Pipeline Section 4 (audit → humanize → verifikasi script → ZeroGPT Section 6). Draft asli dilarang ditimpa; hasil disimpan sebagai `<nama> - Humanized.txt`.
 6. **Tulis laporan** ke `LAPORAN.md` folder bulan itu (format Section 7), bukan ke AGENT.md.
-7. **Gerbang kualitas** per artikel sebelum klaim final: `python3 -I -X utf8 alat/cek-artikel.py "<artikel>" --kbbi --simpan-kata` (pertama kali untuk klien baru). Perbaiki hanya bagian FAIL, ulang sampai 0 FAIL.
+7. **Gerbang kualitas** per artikel sebelum klaim final: `python3 -I -X utf8 alat/cek-artikel.py "<artikel>"`. Perbaiki hanya bagian FAIL (termasuk kata tidak terverifikasi), ulang sampai 0 FAIL.
 8. **Laporan akhir ke operator**: tabel status setiap draft (termasuk yang dilewati dan alasannya), tabel ringkas artikel yang diproses (kata, keyword, ZeroGPT), temuan yang butuh keputusan, dan status plagiarisme (belum dicek manual kecuali operator melaporkan).
 
 Cara memanggil: command `/artikel <nama perusahaan> <bulan> [tahun]`, atau prompt biasa untuk agent apa pun. Sumber command ada di `perintah/artikel.md` dan dipasang per komputer dengan `alat/pasang-perintah.py` (TRAE, ZCode, Claude Code). Panduan lengkap, penjelasan isi perintah, dan prompt cadangan ada di `PROMPT PINTASAN.md` (ROOT).

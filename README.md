@@ -24,7 +24,7 @@ Gerbang tidak menjamin peringkat. Skor Rank Math adalah skor plugin, bukan sinya
 2. **Audit.** `cek-artikel.py --draft` mengeluarkan daftar temuan bernomor: komponen wajib, ejaan tidak baku, kata asing, angka tanpa label, dan pola khas tulisan AI. Audit ini tidak pernah menghentikan pekerjaan (exit 0).
 3. **Humanize.** Agent menulis ulang berdasarkan daftar temuan dan `aturan/kerja-tanpa-skill.md`. Statistik, testimoni, dan nama tidak boleh dikarang.
 4. **Gerbang kualitas.** `cek-artikel.py` memeriksa artikel dan berkas `- Meta.txt` pendampingnya. Artikel lulus bila hasilnya `0 FAIL`.
-5. **ZeroGPT dan laporan.** Hasil dipindai di ZeroGPT, lalu angkanya dicatat apa adanya di `LAPORAN.md` klien.
+5. **ZeroGPT dan laporan.** ZeroGPT dipindai oleh **operator (manusia)** — agent menyiapkan teks prosa siap tempel dan meminta hasilnya. Bila di atas 10%, agent memperbaiki lalu meminta scan ulang. Angka dicatat apa adanya di `LAPORAN.md` klien.
 
 ### Status draft
 
@@ -122,9 +122,15 @@ Butuh agent apa pun yang bisa membaca berkas biasa (TRAE, ZCode, Claude Code, Co
 
 Verifikasi bahasa berjalan **sepenuhnya offline dan berlapis**: kamus approved (`kamus-kata.txt`, diperluas bertahap setelah tinjauan manual), lalu wordlist KBBI offline (`kamus-kbbi-offline.txt`, 112.651 kata, kata berimbuhan dinormalisasi ke bentuk dasar dulu). Tidak ada panggilan jaringan — situs KBBI Daring dan kbbi.web.id sama-sama dibatasi kuota (terverifikasi 2026-11-20), sehingga sengaja tidak dipakai. Kata yang tidak ditemukan di kedua lapisan dilaporkan sebagai *kata tidak terverifikasi* untuk tinjauan manual; kata yang memang baku ditambahkan ke `kamus-kata.txt`.
 
-## ZeroGPT
+## ZeroGPT (dipindai operator)
 
-Versi final dipindai di <https://www.zerogpt.com/>. Targetnya verdict *Human written* dengan AI di bawah 10%. Batas gratis 15.000 karakter, jadi blok editor dibuang dulu sebelum teks ditempel. Bila lebih panjang, teks dipecah di batas paragraf dan kedua angkanya dilaporkan. Plagiarisme belum punya alat cek otomatis. Gerbang kualitas hanya menangkap kalimat yang disalin antar artikel di repo ini.
+Pemindaian ZeroGPT dilakukan **operator (manusia)**, bukan agent — membuka browser untuk detektor terbukti memakan token dan rentan iklan/timeout. Target tiap artikel: verdict *Human written* dengan **AI di bawah 10%**.
+
+Alurnya:
+1. Agent menyiapkan payload prosa (strip HTML, tanpa blok editor, ≤15.000 karakter per bagian; dipecah di batas paragraf bila lebih).
+2. Operator menempel di <https://www.zerogpt.com/>, klik *Detect Text*, lalu melaporkan verdict + angka AI ke agent.
+3. Bila masih di atas 10%, agent memperbaiki bagian yang ditandai dan meminta scan ulang — diulang sampai lulus atau operator menghentikan.
+4. Angka dicatat apa adanya di `LAPORAN.md` klien. Plagiarisme belum punya alat cek otomatis; gerbang kualitas hanya menangkap kalimat yang disalin antar artikel di repo ini.
 
 ## Contoh
 

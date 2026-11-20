@@ -25,7 +25,7 @@ urutan membaca berkas aturan dan menjalankan alat, plus mewajibkan skill pendamp
    — daftar TEMUAN bernomor = bahan humanize.
 6. Setelah humanize, tulis `<artikel> - Meta.txt`, lalu jalankan Gerbang Kualitas:
    `python -I -X utf8 alat/cek-artikel.py "<artikel>"` — wajib `0 FAIL` sebelum klaim selesai.
-7. Pindai ZeroGPT sesuai `AGENT.md` Section 6, tulis `LAPORAN.md` (Section 7).
+7. ZeroGPT dipindai **operator (manusia)**: siapkan teks prosa siap tempel, serahkan ke operator, lalu catat hasilnya. Detail di `AGENT.md` Section 6; tulis `LAPORAN.md` (Section 7). Bila di atas 10%, perbaiki artikel lalu minta operator memindai ulang.
 
 ## Aturan yang tidak bisa ditawar
 

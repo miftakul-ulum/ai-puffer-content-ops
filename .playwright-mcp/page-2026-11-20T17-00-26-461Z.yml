@@ -1,0 +1,367 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e4]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - link [ref=e8] [cursor=pointer]:
+          - /url: /
+          - img "ZeroGPT - Free Open AI Detection Tool" [ref=e9]
+        - link "ZeroGPT" [ref=e10] [cursor=pointer]:
+          - /url: /
+      - generic [ref=e11]:
+        - generic [ref=e12]: en
+        - button "Get Started" [ref=e30] [cursor=pointer]
+        - link "Register" [ref=e32] [cursor=pointer]:
+          - /url: /my-account?register=true
+        - link "Login" [ref=e34] [cursor=pointer]:
+          - /url: /my-account?login=true
+        - img [ref=e35] [cursor=pointer]
+    - generic [ref=e37]:
+      - generic [ref=e39]:
+        - heading "Trusted GPT-6, ChatGPT and AI Detector tool by ZeroGPT" [level=1] [ref=e40]
+        - heading "ZeroGPT the most Advanced and Reliable Chat GPT, GPT6 & AI Content Detector" [level=2] [ref=e41]
+        - generic [ref=e42]:
+          - generic [ref=e45]:
+            - link [ref=e46] [cursor=pointer]:
+              - /url: /
+              - img "AI/GPT Detector" [ref=e48]
+            - link [ref=e49] [cursor=pointer]:
+              - /url: /ai-humanizer
+              - img "AI Humanizer" [ref=e51]
+            - link [ref=e52] [cursor=pointer]:
+              - /url: /ai-image-detector
+              - img "AI Image Detector" [ref=e54]
+            - link [ref=e55] [cursor=pointer]:
+              - /url: /plagiarism-checker
+              - img "Plagiarism Checker" [ref=e57]
+            - link [ref=e58] [cursor=pointer]:
+              - /url: /summarizer
+              - img "AI Text Summarizer" [ref=e60]
+            - link [ref=e61] [cursor=pointer]:
+              - /url: /paraphraser
+              - img "AI Paraphraser" [ref=e63]
+            - link [ref=e64] [cursor=pointer]:
+              - /url: /grammar-checker
+              - img "AI Grammar Check" [ref=e66]
+            - link [ref=e67] [cursor=pointer]:
+              - /url: /translator
+              - img "AI Translator" [ref=e69]
+            - link [ref=e70] [cursor=pointer]:
+              - /url: /word-counter
+              - img "Word Counter" [ref=e72]
+          - generic [ref=e73]:
+            - textbox "Enter text to check for AI and ChatGPT Plagiarism" [ref=e75]
+            - generic [ref=e76]:
+              - generic [ref=e77]:
+                - button "Detect Text" [ref=e78] [cursor=pointer]
+                - generic [ref=e79] [cursor=pointer]: Upload File
+              - generic [ref=e82]:
+                - text: 0/15,000 Characters
+                - generic [ref=e83]:
+                  - text: Check 350,000 characters,
+                  - link "Upgrade Here" [ref=e84] [cursor=pointer]:
+                    - /url: /pricing
+        - generic [ref=e85]:
+          - heading "Hi, Keep working with the Trusted Tools everyone loves" [level=2] [ref=e86]
+          - generic [ref=e87]:
+            - button "Pomodoro Timer Focus sessions" [ref=e88] [cursor=pointer]:
+              - generic [ref=e93]:
+                - generic [ref=e94]: Pomodoro Timer
+                - generic [ref=e95]: Focus sessions
+            - button "AI Image Detector AI Image Detector Spot generated images" [ref=e99] [cursor=pointer]:
+              - generic [ref=e100]:
+                - img "AI Image Detector" [ref=e102]
+                - generic [ref=e103]:
+                  - generic [ref=e104]: AI Image Detector
+                  - generic [ref=e105]: Spot generated images
+            - button "AI Video Detector Frame-level analysis" [ref=e109] [cursor=pointer]:
+              - generic [ref=e114]:
+                - generic [ref=e115]: AI Video Detector
+                - generic [ref=e116]: Frame-level analysis
+            - button "Grammar Checker Grammar Checker Spelling and style" [ref=e120] [cursor=pointer]:
+              - generic [ref=e121]:
+                - img "Grammar Checker" [ref=e123]
+                - generic [ref=e124]:
+                  - generic [ref=e125]: Grammar Checker
+                  - generic [ref=e126]: Spelling and style
+            - button "Plagiarism Checker Plagiarism Checker Billions of sources" [ref=e130] [cursor=pointer]:
+              - generic [ref=e131]:
+                - img "Plagiarism Checker" [ref=e133]
+                - generic [ref=e134]:
+                  - generic [ref=e135]: Plagiarism Checker
+                  - generic [ref=e136]: Billions of sources
+            - button "AI Humanizer AI Humanizer Rewrite to pass review" [ref=e140] [cursor=pointer]:
+              - generic [ref=e141]:
+                - img "AI Humanizer" [ref=e143]
+                - generic [ref=e144]:
+                  - generic [ref=e145]: AI Humanizer
+                  - generic [ref=e146]: Rewrite to pass review
+          - button "Explore all tools" [ref=e150] [cursor=pointer]
+        - heading "Simple and Credible Open AI, Grok, DeepSeek, and Gemini Detector Tool for Free" [level=2] [ref=e154]
+        - generic [ref=e155]:
+          - generic [ref=e156]: Millions of Users Trust ZeroGPT, See what sets ZeroGPT apart
+          - generic [ref=e157]:
+            - generic [ref=e158]:
+              - img "Highlight sentences detected as AI/GPT" [ref=e160]
+              - generic [ref=e161]:
+                - heading "Highlighted Sentences" [level=3] [ref=e162]
+                - paragraph [ref=e164]: Every sentence written by AI is highlighted, with a gauge showing the percentage of AI inside the text
+            - generic [ref=e165]:
+              - img "top notch AI tools" [ref=e167]
+              - generic [ref=e168]:
+                - heading "Multiple Features" [level=3] [ref=e169]
+                - paragraph [ref=e171]: Enjoy our Top-notch Humanizer Plagiarism Checker, Paraphraser, Summarizer, Grammar checker, Translator, Writing Assistant…
+            - generic [ref=e172]:
+              - img "High accuracy ai text detection model" [ref=e174]
+              - generic [ref=e175]:
+                - heading "High Accuracy Model" [level=3] [ref=e176]
+                - paragraph [ref=e178]: Advanced and premium model, trained on all languages and multiple LLM models to provide highly accurate results
+            - generic [ref=e179]:
+              - img "automatically generated pdf report" [ref=e181]
+              - generic [ref=e182]:
+                - heading "Generated Report" [level=3] [ref=e183]
+                - paragraph [ref=e185]: Automatically generated .pdf reports for every detection, used as a proof of AI-Free plagiarism
+            - generic [ref=e186]:
+              - img "High Accuracy AI Detection in all languages" [ref=e188]
+              - generic [ref=e189]:
+                - heading "Support All Languages" [level=3] [ref=e190]
+                - paragraph [ref=e192]: Support all the languages with the highest accuracy rate of detection
+            - generic [ref=e193]:
+              - img "Batch files processing in the background" [ref=e195]
+              - generic [ref=e196]:
+                - heading "Batch Files Upload" [level=3] [ref=e197]
+                - paragraph [ref=e199]: Simply upload multiple files at once, and they will get checked automatically in the dashboard
+          - button "Get premium features" [ref=e201] [cursor=pointer]
+          - generic [ref=e208]:
+            - generic [ref=e212]:
+              - generic [ref=e213]: Unlock growth potential with our API
+              - generic [ref=e214]: Our API is available for the AI Detector, Plagiarism Checker, Paraphraser, Summarizer, Grammar and Spell Checker, Chatbot & Translator
+              - paragraph [ref=e216]: Our team has developed a user-friendly API for organizations.
+            - link "Get API access" [ref=e217] [cursor=pointer]:
+              - /url: /pricing#api
+      - generic [ref=e223]:
+        - img "Deep Analyze" [ref=e225]
+        - generic [ref=e226]:
+          - heading "DeepAnalyse™ Technology" [level=3] [ref=e227]
+          - paragraph [ref=e228]: A pioneering research in the modeling of AI content detection Our AI detection model includes several components that analyze text to determine its origin and if it was written by AI. We use a multi-stage methodology designed to optimize accuracy while minimizing false positives and negatives. From the macro level to the micro one, this is how DeepAnalyse™ Technology works. Our model specializes in identifying AI generated content like Chat GPT, GPT 3, GPT 4, GPT 5, GPT 6, Gemini, Grok, Perplexity AI, Claude, DeepSeek, LLaMa models … Finally, we employ a comprehensive deep learning methodology, trained on extensive text collections from the internet, educational datasets, and our proprietary synthetic AI datasets produced using various language models.
+          - link "Explore DeepAnalyse™ Technology" [ref=e229] [cursor=pointer]:
+            - /url: /deep-analyse
+            - text: Explore DeepAnalyse™ Technology
+            - generic [aria-hidden] [ref=e230]: →
+          - generic [ref=e231]:
+            - generic [ref=e232]:
+              - generic [ref=e233]: 98.4%
+              - generic [ref=e234]: Detection accuracy
+            - generic [ref=e235]:
+              - generic [ref=e236]: <1%
+              - generic [ref=e237]: False positive rate
+            - generic [ref=e238]:
+              - generic [ref=e239]: 35+
+              - generic [ref=e240]: LLM families covered
+      - generic [ref=e243]:
+        - generic [ref=e244]:
+          - heading "Use ZeroGPT in Whatsapp and Telegram" [level=2] [ref=e245]
+          - paragraph [ref=e246]: "ZeroGPT is now available on WhatsApp and Telegram. Chat With ZeroGPT: Advanced ChatBot, Detect AI, Summarize, Paraphrase, Translate and Check for Grammar Errors… all these features available inside WhatsApp and Telegram."
+        - generic [ref=e247]:
+          - generic [ref=e286]:
+            - generic [ref=e287] [cursor=pointer]
+            - generic [ref=e290] [cursor=pointer]
+          - generic [ref=e293]:
+            - generic [ref=e294]:
+              - heading "WhatsApp" [level=3] [ref=e299]
+              - generic [ref=e301]:
+                - text: Register your WhatsApp's number in the Dashboard (section "Social Settings") and start using all the features of ZeroGPT inside WhatsApp using the phone number
+                - link "+1 (206) 372-5474" [ref=e302] [cursor=pointer]:
+                  - /url: https://web.whatsapp.com/send?phone=12063725474
+            - generic [ref=e303]:
+              - heading "Telegram" [level=3] [ref=e309]
+              - generic [ref=e311]:
+                - text: Register the telegram code inside your Dashboard (section "Social Settings") and start using all the features of ZeroGPT inside Telegram using the telegram bot
+                - link "zerogpt_official_bot" [ref=e312] [cursor=pointer]:
+                  - /url: https://t.me/zerogpt_official_bot
+            - button "Get Your MAX / EXPERT Subscription" [ref=e314] [cursor=pointer]
+      - generic [ref=e317]:
+        - generic [ref=e318]: Powerful tools
+        - generic [ref=e323]: Explore More Tools to Enhance Your Writing Skills
+        - paragraph [ref=e325]: Fix grammar and spelling mistakes, detect AI plagiarism, check for plagiarism, generate citations, advanced word counter, powerful summarizer and paraphraser
+        - generic [ref=e326]:
+          - link "AI Humanizer AI Humanizer Humanize AI text to make it sound natural and human-like." [ref=e328] [cursor=pointer]:
+            - /url: /ai-humanizer
+            - generic [ref=e329]:
+              - img "AI Humanizer" [ref=e331]
+              - generic [ref=e332]:
+                - generic [ref=e333]: AI Humanizer
+                - generic [ref=e334]: Humanize AI text to make it sound natural and human-like.
+          - link "AI Image Detector AI Image Detector Detect AI-generated images and edited visuals instantly." [ref=e339] [cursor=pointer]:
+            - /url: /ai-image-detector
+            - generic [ref=e340]:
+              - img "AI Image Detector" [ref=e342]
+              - generic [ref=e343]:
+                - generic [ref=e344]: AI Image Detector
+                - generic [ref=e345]: Detect AI-generated images and edited visuals instantly.
+          - link "AI Video Detector Analyze videos to detect AI-generated or manipulated content." [ref=e350] [cursor=pointer]:
+            - /url: /ai-video-detector
+            - generic [ref=e355]:
+              - generic [ref=e356]: AI Video Detector
+              - generic [ref=e357]: Analyze videos to detect AI-generated or manipulated content.
+          - link "Plagiarism Checker Plagiarism Checker Check content originality and detect plagiarism in seconds." [ref=e362] [cursor=pointer]:
+            - /url: /plagiarism-checker
+            - generic [ref=e363]:
+              - img "Plagiarism Checker" [ref=e365]
+              - generic [ref=e366]:
+                - generic [ref=e367]: Plagiarism Checker
+                - generic [ref=e368]: Check content originality and detect plagiarism in seconds.
+          - link "AI Grammar Checker AI Grammar Checker Fix grammar, spelling, punctuation and writing errors." [ref=e373] [cursor=pointer]:
+            - /url: /grammar-checker
+            - generic [ref=e374]:
+              - img "AI Grammar Checker" [ref=e376]
+              - generic [ref=e377]:
+                - generic [ref=e378]: AI Grammar Checker
+                - generic [ref=e379]: Fix grammar, spelling, punctuation and writing errors.
+          - link "AI Paraphraser AI Paraphraser Rephrase text with different tones and writing styles." [ref=e384] [cursor=pointer]:
+            - /url: /paraphraser
+            - generic [ref=e385]:
+              - img "AI Paraphraser" [ref=e387]
+              - generic [ref=e388]:
+                - generic [ref=e389]: AI Paraphraser
+                - generic [ref=e390]: Rephrase text with different tones and writing styles.
+          - link "AI Summarizer Tool Summarize long text into clear, concise and meaningful abstracts." [ref=e395] [cursor=pointer]:
+            - /url: /summarizer
+            - generic [ref=e400]:
+              - generic [ref=e401]: AI Summarizer Tool
+              - generic [ref=e402]: Summarize long text into clear, concise and meaningful abstracts.
+          - link "AI Translator AI Translator Translate text into multiple languages accurately." [ref=e407] [cursor=pointer]:
+            - /url: /translator
+            - generic [ref=e408]:
+              - img "AI Translator" [ref=e410]
+              - generic [ref=e411]:
+                - generic [ref=e412]: AI Translator
+                - generic [ref=e413]: Translate text into multiple languages accurately.
+          - link "Word Counter Tool Word Counter Tool Count words, characters, sentences and paragraphs easily." [ref=e418] [cursor=pointer]:
+            - /url: /word-counter
+            - generic [ref=e419]:
+              - img "Word Counter Tool" [ref=e421]
+              - generic [ref=e422]:
+                - generic [ref=e423]: Word Counter Tool
+                - generic [ref=e424]: Count words, characters, sentences and paragraphs easily.
+          - link "Dictionary Dictionary Look up word meanings, synonyms, antonyms and examples." [ref=e429] [cursor=pointer]:
+            - /url: /dictionary
+            - generic [ref=e430]:
+              - img "Dictionary" [ref=e432]
+              - generic [ref=e433]:
+                - generic [ref=e434]: Dictionary
+                - generic [ref=e435]: Look up word meanings, synonyms, antonyms and examples.
+          - link "Citation Generator Generate accurate citations in APA, MLA, Chicago and more." [ref=e440] [cursor=pointer]:
+            - /url: /citation-generator
+            - generic [ref=e445]:
+              - generic [ref=e446]: Citation Generator
+              - generic [ref=e447]: Generate accurate citations in APA, MLA, Chicago and more.
+          - link "Pomodoro Timer Boost your productivity with smart Pomodoro timer sessions." [ref=e452] [cursor=pointer]:
+            - /url: /pomodoro
+            - generic [ref=e457]:
+              - generic [ref=e458]: Pomodoro Timer
+              - generic [ref=e459]: Boost your productivity with smart Pomodoro timer sessions.
+      - generic [ref=e465]:
+        - generic [ref=e466]:
+          - text: FAQ
+          - heading "Your questions, answered" [level=2] [ref=e467]
+        - generic [ref=e468]:
+          - generic [ref=e469]: How Does ZeroGPT AI Detector work?
+          - generic [ref=e476]: What is the accuracy rate of ZeroGPT?
+          - generic [ref=e483]: Who Benefits from ZeroGPT's AI content detector?
+          - generic [ref=e490]: Will my text get plagiarized or be available online, if I check it on ZeroGPT?
+          - generic [ref=e497]: How can I integrate ZeroGPT tool in my organization or website on a large scale?
+          - generic [ref=e504]: Does ZeroGPT work with different languages?
+          - generic [ref=e511]: How can I cite the AI detector?
+    - generic [ref=e518]:
+      - generic [ref=e519]:
+        - heading "Check Our Blog created with the help of AI" [level=2] [ref=e520]
+        - link "5 Mind Blowing Technologies we'll see in 2024" [ref=e521] [cursor=pointer]:
+          - /url: /en/5-mind-blowing-technologies-in-2024
+        - link "10 Ridiculous Technologies That Will Actually Make Your Life Better" [ref=e522] [cursor=pointer]:
+          - /url: /en/10-ridiculous-technologies-that-will-actually-make-your-life-better
+      - generic [ref=e525]:
+        - generic [ref=e526]:
+          - generic [ref=e527]:
+            - img "ZeroGPT - Free Open AI Detection Tool" [ref=e528]
+            - generic [ref=e529]: ZeroGPT
+          - generic [ref=e530]:
+            - link [ref=e531] [cursor=pointer]:
+              - /url: https://www.linkedin.com/company/92754689
+            - link [ref=e534] [cursor=pointer]:
+              - /url: https://twitter.com/ZeroGpt
+            - link [ref=e537] [cursor=pointer]:
+              - /url: https://www.facebook.com/p/Zerogpt-100089980955511/
+          - generic [ref=e540]: 2026 Copyright © ZeroGPT.com
+        - generic [ref=e541]:
+          - text: More about
+          - link "Pricing" [ref=e543] [cursor=pointer]:
+            - /url: /pricing
+          - link "API" [ref=e545] [cursor=pointer]:
+            - /url: /pricing#api
+          - link "FAQ" [ref=e547] [cursor=pointer]:
+            - /url: /faq
+          - link "Our policy" [ref=e549] [cursor=pointer]:
+            - /url: /privacy-policy
+          - link "Terms of use" [ref=e551] [cursor=pointer]:
+            - /url: /terms-of-use
+          - link "DeepAnalyse™" [ref=e553] [cursor=pointer]:
+            - /url: /deep-analyse
+        - generic [ref=e555]:
+          - text: Features
+          - generic [ref=e556]:
+            - generic [ref=e557]:
+              - link "AI Detector" [ref=e559] [cursor=pointer]:
+                - /url: /
+              - link "AI Humanizer" [ref=e561] [cursor=pointer]:
+                - /url: /ai-humanizer
+              - link "Background Remover" [ref=e563] [cursor=pointer]:
+                - /url: /background-remover
+              - link "AI Image Detector" [ref=e565] [cursor=pointer]:
+                - /url: /ai-image-detector
+              - link "AI Video Detector" [ref=e567] [cursor=pointer]:
+                - /url: /ai-video-detector
+              - link "AI ZeroChat-4 & 5" [ref=e569] [cursor=pointer]:
+                - /url: /chat
+              - link "AI Plagiarism Checker" [ref=e571] [cursor=pointer]:
+                - /url: /plagiarism-checker
+              - link "AI Summarizer" [ref=e573] [cursor=pointer]:
+                - /url: /summarizer
+            - generic [ref=e574]:
+              - link "AI Paraphraser" [ref=e576] [cursor=pointer]:
+                - /url: /paraphraser
+              - link "AI Grammar Checker" [ref=e578] [cursor=pointer]:
+                - /url: /grammar-checker
+              - link "AI Translator" [ref=e580] [cursor=pointer]:
+                - /url: /translator
+              - link "Word Counter" [ref=e582] [cursor=pointer]:
+                - /url: /word-counter
+              - link "Pomodoro Timer" [ref=e584] [cursor=pointer]:
+                - /url: /pomodoro
+              - link "Dictionary" [ref=e586] [cursor=pointer]:
+                - /url: /dictionary
+              - link "AI Email Helper" [ref=e588] [cursor=pointer]:
+                - /url: /email-helper
+        - generic [ref=e589]:
+          - generic [ref=e590]: You can email us at
+          - link "support@zerogpt.com" [ref=e592] [cursor=pointer]:
+            - /url: mailto:support@zerogpt.com
+          - generic [ref=e593]: Our support team is spread across the globe to give you answers fast
+        - generic [ref=e596]:
+          - generic [ref=e597]: ZeroGPT - AI detection, plagiarism checking, and writing tools.
+          - generic [ref=e598]: Trusted by millions of users worldwide.
+  - generic:
+    - generic:
+      - iframe [ref=e601]
+      - generic [ref=e605]:
+        - generic:
+          - generic:
+            - generic [ref=e609] [cursor=pointer]
+            - generic:
+              - generic [ref=e611] [cursor=pointer]
+              - generic [ref=e615] [cursor=pointer]
+              - generic [ref=e619] [cursor=pointer]
+        - generic [ref=e629] [cursor=pointer]
+  - generic [ref=e630]:
+    - generic:
+      - button "Close Ad" [ref=e631] [cursor=pointer]
+      - img "Freestar" [ref=e634]

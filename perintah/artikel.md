@@ -19,5 +19,6 @@ Langkah kerja:
 4. Audit draft mentah dengan `{{PYTHON}} -I -X utf8 alat/cek-artikel.py "<draft>" --draft`. Daftar TEMUAN-nya menjadi bahan humanize.
 5. Setelah humanize, tulis berkas `<artikel> - Meta.txt` (judul SEO, deskripsi meta, slug), lalu jalankan Gerbang Kualitas: `{{PYTHON}} -I -X utf8 alat/cek-artikel.py "<artikel>"`. Verifikasi bahasa sudah otomatis (wordlist offline). Perbaiki hanya bagian FAIL sampai 0 FAIL. Jangan rombak keseluruhan.
 6. Draft asli tidak boleh ditimpa. Ledger dan laporan ditulis ke `LAPORAN.md` folder bulan klien, bukan ke `AGENT.md`. Hash ledger disalin dari keluaran skrip, tidak dihitung manual.
-7. Jangan menyatakan artikel lulus sebelum gerbang kualitas terbaru menunjukkan `0 FAIL` pada berkas terbaru.
-8. Akhiri dengan laporan ringkas di chat: status setiap draft (termasuk yang dilewati), tabel artikel yang diproses, temuan yang butuh keputusan, dan status plagiarisme.
+7. **ZeroGPT dipindai operator (manusia)**: siapkan teks prosa siap tempel (≤15.000 karakter per bagian, pecah di batas paragraf bila perlu), serahkan ke operator berserta URL ZeroGPT, lalu minta hasil per artikel (verdict + angka AI%). Bila di atas 10% per artikel: perbaiki bagian yang ditandai, lalu minta operator memindai ulang — ulangi sampai di bawah 10% atau operator menghentikan.
+8. Jangan menyatakan artikel lulus sebelum gerbang kualitas terbaru menunjukkan `0 FAIL` pada berkas terbaru, dan jangan mengarang angka ZeroGPT — catat hasil operator apa adanya.
+9. Akhiri dengan laporan ringkas di chat: status setiap draft (termasuk yang dilewati), tabel artikel yang diproses, temuan yang butuh keputusan, dan status plagiarisme.

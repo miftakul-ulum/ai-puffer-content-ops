@@ -145,7 +145,13 @@ Kode keluar `cek-artikel.py`: `0` tidak ada FAIL, `1` ada FAIL, `2` masukan tida
 Fakta Google/Rank Math yang menjadi dasar ambang ada di `FAKTA-SEO.md` — rujuk situ, jangan ingatan.
 
 ### Tahap 5 — Crosscheck ZeroGPT + Final
-Uji ke ZeroGPT (protokol di Section 6), isi kolom ZeroGPT di ledger (mis. `3,72% AI`) dan blok laporan di `LAPORAN.md` folder bulan klien (Section 7), baru klaim final.
+Pemindaian ZeroGPT dilakukan **operator (manusia)**, bukan agent (protokol Section 6). Tugas agent:
+1. Siapkan payload prosa siap tempel (strip HTML, tanpa blok editor, ≤15.000 karakter per bagian).
+2. Serahkan ke operator beserta URL ZeroGPT, lalu **minta hasil laporannya** per artikel (verdict + angka AI%).
+3. Catat hasil apa adanya ke ledger dan `LAPORAN.md` (Section 7).
+Target: AI di bawah 10% per artikel. Bila operator melaporkan di atas 10%: perbaiki bagian yang
+ditandai detector, lalu minta operator memindai ulang — ulangi sampai di bawah 10% atau operator
+menghentikan. Agent tidak membuka browser ZeroGPT sendiri (memboros token).
 
 ## 5. Checklist Audit
 
@@ -181,17 +187,33 @@ Uji ke ZeroGPT (protokol di Section 6), isi kolom ZeroGPT di ledger (mis. `3,72%
 
 ## 6. Protokol Crosscheck — ZeroGPT (Tahap 5)
 
-ZeroGPT adalah **satu-satunya** gate detector eksternal. JustDone (AI Detector & Plagiarism) dihapus dari protokol pada 2026-11-20 atas keputusan pemilik project — hasilnya dikunci di balik akun berlangganan sehingga tidak bisa diaudit otomatis.
+ZeroGPT adalah **satu-satunya** gate detector eksternal, dan **pemindaian dilakukan oleh operator
+(manusia)** — agent tidak membuka browser ZeroGPT (memboros token dan rentan iklan/timeout;
+keputusan pemilik project 2026-11-21). JustDone dihapus dari protokol pada 2026-11-20 karena
+hasilnya dikunci di balik akun berlangganan.
 
 | Tool | URL | Yang dicek | Target |
 |---|---|---|---|
-| ZeroGPT | https://www.zerogpt.com/ | % AI (paste teks) | Verdict **"Your Text is Human written"**; AI % serendah mungkin (target praktis di bawah 10%) |
+| ZeroGPT | https://www.zerogpt.com/ | % AI per artikel (paste teks) | Verdict **"Your Text is Human written"** dengan **AI < 10% per artikel** |
 
-Prosedur:
-1. Strip HTML → buang blok editor (saran gambar, shortcode, alt text, baris kontak boilerplate bila perlu) → pastikan payload ≤15.000 karakter (batas gratis ZeroGPT). Artikel ≥2000 kata sering melewati batas ini: bila lebih, pecah di batas paragraf menjadi 2 bagian, uji keduanya, dan laporkan kedua angkanya.
-2. Paste ke kolom teks (`#textArea`), klik **"Detect Text"**, tunggu hasil (bisa lebih dari 15 detik; baca ulang sebelum menyimpulkan gagal), lalu rekam angka ke `LAPORAN.md` klien (Section 7).
-3. Jika verdict AI: revisi bagian yang ditandai detector → scan ulang (maks 2 iterasi). Laporkan angka apa adanya, jangan manis-maniskan.
-4. Bila ZeroGPT mengubah UI atau terhalang captcha: tandai `MANUAL CHECK NEEDED` dan serahkan ke operator — dilarang mengarang angka.
+Pembagian peran:
+- **Agent**: menyiapkan payload, menyerahkannya ke operator, mencatat hasil, dan memperbaiki
+  artikel bila hasil masih di atas target.
+- **Operator (manusia)**: memindai di zerogpt.com dan melaporkan verdict + angka AI per artikel.
+
+Prosedur agent:
+1. Siapkan payload: strip HTML → buang blok editor (saran gambar, shortcode, alt text, baris kontak
+   boilerplate bila perlu) → pastikan ≤15.000 karakter per bagian (batas gratis ZeroGPT). Bila
+   lebih, pecah di batas paragraf menjadi beberapa bagian dan beri nomor bagiannya.
+2. Serahkan payload ke operator berserta URL ZeroGPT dan instruksi singkat (tempel → "Detect Text"),
+   lalu **minta hasil laporannya**: verdict dan angka AI% per artikel (per bagian bila dipecah).
+3. Catat hasil apa adanya ke ledger dan `LAPORAN.md` klien (Section 7), tanpa mengarang angka.
+4. **Bila operator melaporkan di atas 10% per artikel**: perbaiki bagian yang ditandai detector,
+   lalu minta operator memindai ulang. Ulangi siklus perbaiki → scan ulang sampai di bawah 10%
+   atau operator menghentikan. Laporkan angka tiap putaran apa adanya, jangan manis-maniskan.
+5. Bila operator tidak dapat memindai (alat berubah, terhalang captcha, kuota): tandai
+   `MANUAL CHECK NEEDED` di `LAPORAN.md` — dilarang mengarang angka, dan dilarang membuka
+   browser ZeroGPT menggantikan operator kecuali operator memintanya secara eksplisit.
 5. Catatan plagiarisme: artikel hasil pipeline ini adalah parafrase utuh (bukan salin-tempel), jadi risiko duplikasi rendah by construction; klaim "lolos plagiarism checker" hanya boleh ditulis bila operator menjalankan cek manual dan melaporkan hasilnya.
 
 ## 7. Laporan Per Klien (BUKAN di file ini)

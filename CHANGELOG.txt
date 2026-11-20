@@ -25,6 +25,21 @@ Diubah
   repo dimuat dengan membaca SKILL.md-nya; skill luar repo tidak diunduh.
 
 
+[1.1.1] - 2026-11-21
+--------------------
+
+Diubah
+- Alur ZeroGPT: pemindaian kini dilakukan OPERATOR (manusia), bukan agent. Agent menyiapkan
+  payload prosa (<=15.000 karakter per bagian), menyerahkannya, lalu mencatat hasil yang
+  dilaporkan operator. Target per artikel: AI di bawah 10%; bila di atasnya, agent memperbaiki
+  bagian yang ditandai dan meminta scan ulang sampai lulus atau operator menghentikan.
+- Dihapus dari protokol: instruksi agent membuka browser ZeroGPT (boros token; rentan iklan
+  interstisial dan timeout perintah). Detail teknis jalur browser dipindahkan ke catatan memori,
+  dipakai hanya bila operator meminta agent memindai sendiri.
+- AGENT.md Tahap 5 dan Section 6, README (langkah Memulai + bagian ZeroGPT),
+  perintah/artikel.md (langkah 7), dan skills/dci-seo-auditor disinkronkan.
+
+
 [1.1.0] - 2026-11-21
 --------------------
 

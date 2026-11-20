@@ -79,7 +79,7 @@ Cara memperbaiki bukan mengganti sinonim, melainkan mengubah sudut pandang: siap
 1. Gerbang status, lalu audit `--draft`.
 2. Tulis ulang sesuai bagian 1 dan 2, periksa fakta sesuai bagian 3.
 3. Tulis berkas `- Meta.txt` sesuai bagian 5.
-4. Gerbang kualitas sampai `0 FAIL`, lalu ZeroGPT.
+4. Gerbang kualitas sampai `0 FAIL`, lalu ZeroGPT dipindai operator.
 5. Catat ledger dan laporan. Sebelum menyatakan selesai, ikuti bagian 4.
 
 ## 8. Skill opsional

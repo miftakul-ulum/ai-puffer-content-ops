@@ -227,25 +227,24 @@ Aturan ledger: kolom Hash wajib 16 karakter hex agar baris terbaca. Jangan mengu
 - Angka harga hanya "kisaran"/"tergantung"; tanpa statistik/testimoni/nama/penghargaan fiktif.
 - Klaim butuh verifikasi live (harga kompetitor, fakta kota) → tandai eksplisit, jangan mengarang sumber.
 
-## 9. Aturan Mandiri dan Skill Opsional
+## 9. Skill Wajib (ikut repo, folder `skills/`)
 
-Pipeline ini TIDAK membutuhkan skill apa pun. Semua aturan yang dipakai ada di repo: Section 5 dan 11 file ini, serta `aturan/kerja-tanpa-skill.md` (metode menulis ulang, daftar tanda tulisan mesin, aturan fakta, disiplin bukti, berkas meta, dan aturan kanibalisasi). Baca berkas itu sebelum Tahap 3.
+Skill adalah **WAJIB** dan sudah disediakan di repo — tidak diunduh dari luar. Muat dengan membaca
+`SKILL.md`-nya (agent dengan mekanisme skill boleh memuatnya lewat mekanisme masing-masing; hasil sama).
 
-Skill di tabel bawah hanya pelengkap bagi agent yang kebetulan memilikinya. Bila skill tidak ada, abaikan tabel ini dan ikuti `aturan/kerja-tanpa-skill.md`. Jangan mencoba mengunduh skill. Pemetaan bila tersedia:
-
-| Tahap | Skill | Peran |
-|---|---|---|
-| 2 — Audit | `blog-seo-check` | Kerangka validasi on-page (title, meta, heading, link, alt text, URL) — checklist-nya diadaptasi ke rules RankMath AI Puffer di Section 5, bukan dipakai mentah |
-| 2–3 — Audit & Rewrite | `blog-rewrite` | Metodologi rewrite: preserve voice penulis, larang statistik fiktif, audit read-only sebelum menulis, verifikasi setelah menulis |
-| 3 — Humanize | `antislop-copywriting` (wajib, muat bersama core `antislop` bila tersedia) | Filter anti-deteksi inti: 0 em dash, tanpa rule-of-three paksa, tanpa negative parallelism ("bukan hanya X tetapi Y"), tanpa rangkaian fragmen staccato, tanpa fake-candid opener dan buzzword kosong; PERTAHANKAN "signs of human writing" (variasi panjang kalimat, detail spesifik, asides, tension) |
-| 1 — Draft baru | `blog-write`, `blog-outline` | Hanya bila artikel ditulis dari nol (bukan parafrase draft yang sudah ada) |
-| 4 — Verifikasi SEO | `blog-seo-check` (jalankan ulang) | Cek pasca-tulis: struktur heading, link dedup, alt text — dipetakan ke checklist Section 5a |
-| 5 — Sebelum klaim selesai | `verification-before-completion` | Verifikasi dengan bukti terukur (word count, keyword density, hasil detector) — bukan perasaan |
+| Tahap | Skill (folder `skills/`) | Status | Peran |
+|---|---|---|---|
+| Semua | `dci-seo-auditor` | WAJIB — muat pertama | Skill induk: urutan pipeline, rujukan berkas aturan dan alat |
+| 3 — Humanize | `antislop-copywriting` + `antislop` (core) | WAJIB | Filter anti-deteksi inti: 0 em dash, tanpa rule-of-three paksa, tanpa negative parallelism ("bukan hanya X tetapi Y"), tanpa rangkaian fragmen staccato, tanpa fake-candid opener dan buzzword kosong; PERTAHANKAN "signs of human writing" (variasi panjang kalimat, detail spesifik, asides, tension) |
+| 5 — Sebelum klaim selesai | `verification-before-completion` | WAJIB | Verifikasi dengan bukti terukur (word count, keyword density, hasil detector) — bukan perasaan |
+| 2/4 — Audit & SEO | `blog-seo-check` | OPSIONAL (bila ada di komputer operator) | Kerangka validasi on-page — hasilnya dipetakan ke checklist Section 5a, bukan dipakai mentah |
+| 1 — Draft baru | `blog-write`, `blog-outline` | OPSIONAL | Hanya bila artikel ditulis dari nol, bukan parafrase draft |
 
 Aturan pemakaian:
-1. Skill di atas adalah **filter**, bukan pengganti Section 11 — bila rules AI Puffer (Section 11) bertentangan dengan preferensi generik skill, **Section 11 menang** (contoh: marker percakapan "jujur saja," memang diwajibkan Section 11; antislop hanya membatasi frekuensinya maks 1–2×).
-2. Skill via Skill tool bila tersedia. Bila environment tidak punya skill-nya, ikuti `aturan/kerja-tanpa-skill.md`. Hasil kerja harus sama lolos gerbang `0 FAIL` dengan atau tanpa skill.
-3. Skill tambahan yang valid bila relevan: `blog-factcheck` (sebelum publish), `blog-seo-check` ulang setelah revisi detector, `copy-editing` (bila ada permintaan REVISION).
+1. Skill WAJIB tersedia di repo ini (`skills/`) — jangan meminta operator mengunduh, jangan berhenti bila folder hilang; laporkan bahwa repo tidak lengkap.
+2. Skill adalah **filter**, bukan pengganti aturan: bila aturan AI Puffer (Section 11) bertentangan dengan preferensi generik skill, **Section 11 menang** (contoh: marker percakapan "jujur saja," memang diwajibkan Section 11; antislop hanya membatasi frekuensinya maks 1–2×).
+3. `aturan/kerja-tanpa-skill.md` tetap menjadi inti metode (namanya berarti metode inti yang tidak bergantung skill eksternal) — tetap dibaca sebelum Tahap 3.
+4. Skill opsional lain bila tersedia di komputer operator (bukan di repo): `blog-write`, `blog-outline` (draft dari nol), `blog-factcheck` (sebelum publish), `copy-editing` (permintaan REVISION).
 
 ## 10. Mode Pintasan (input: nama perusahaan + nama bulan)
 

@@ -8,6 +8,23 @@ Bukan laporan artikel klien. Laporan artikel ada di klien/<Klien>/artikel/<YYYY 
 Format: versi terbaru di atas. Tiap entri dikelompokkan Ditambahkan, Diubah, Dihapus, Belum teruji.
 
 
+[1.0.0] - 2026-11-20
+--------------------
+
+Ditambahkan
+- Folder skills/ ikut repo dan menjadi WAJIB: dci-seo-auditor (skill induk yang memandu
+  pipeline), antislop, antislop-copywriting, verification-before-completion. Disalin dari
+  sinkronisasi trae-skills (antislop 3.2.24) agar semua karyawan memakai filter yang sama
+  tanpa bergantung skill di komputer masing-masing.
+- AGENT.md Section 9 ditulis ulang: skill wajib vs skill opsional, aturan hak-menang
+  (aturan AI Puffer menang atas preferensi generik skill).
+- README.md: bagian "Skill wajib" dan struktur folder diperbarui.
+
+Diubah
+- AGENTS.md dan perintah/artikel.md: kebijakan "skill tidak wajib" dicabut - skill wajib
+  repo dimuat dengan membaca SKILL.md-nya; skill luar repo tidak diunduh.
+
+
 [0.9.0] - 2026-11-20
 --------------------
 

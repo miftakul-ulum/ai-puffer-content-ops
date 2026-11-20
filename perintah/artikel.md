@@ -10,7 +10,7 @@ Cara membaca argumen:
 
 Lokasi project: folder yang memuat `AGENT.md` dan `alat/` (root repo). Jalankan semua perintah dari folder itu. Bila agent tidak berada di sana, pindah dulu atau minta operator membuka folder yang benar.
 
-Skill tidak wajib. Semua aturan ada di repo. Bila agent memiliki skill pelengkap (antislop-copywriting, blog-rewrite, blog-seo-check, verification-before-completion), boleh dipakai, tetapi jangan mengunduh skill dan jangan berhenti bila tidak ada.
+Skill WAJIB dan sudah disediakan di repo: baca `skills/dci-seo-auditor/SKILL.md` sebagai langkah pertama, lalu muat `skills/antislop-copywriting/SKILL.md`, `skills/antislop/SKILL.md`, dan `skills/verification-before-completion/SKILL.md` (baca berkas SKILL.md-nya langsung; tidak perlu mekanisme skill khusus agent). Jangan mengunduh skill lain dari luar repo.
 
 Langkah kerja:
 1. Baca `AGENT.md` dan `aturan/kerja-tanpa-skill.md`.

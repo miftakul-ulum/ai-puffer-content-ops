@@ -58,6 +58,7 @@ Gerbang tidak menjamin peringkat. Skor Rank Math adalah skor plugin, bukan sinya
 ├── PROMPT PINTASAN.md       # panduan /artikel, isi perintah, cara memasang, prompt cadangan
 ├── CHANGELOG.txt            # riwayat perubahan sistem
 ├── CLAUDE.md                # impor AGENTS.md untuk Claude Code
+├── skills/                  # skill WAJIB repo: dci-seo-auditor, antislop, antislop-copywriting, verification-before-completion
 ├── perintah/
 │   └── artikel.md           # sumber netral command /artikel (tanpa format khusus agent)
 ├── alat/
@@ -78,7 +79,20 @@ Gerbang tidak menjamin peringkat. Skor Rank Math adalah skor plugin, bukan sinya
             └── LAPORAN.md              # ledger dan laporan bulan itu
 ```
 
-Folder berawalan `_` bukan klien dan tidak pernah diproses. Folder milik agent (`.trae/`, `.zcode/`, `.claude/`, `.agents/`, dan sejenisnya) ada di `.gitignore` dan tidak ikut repo. Semua yang dibutuhkan pipeline ada di `alat/`, `aturan/`, `perintah/`, dan `klien/`, sehingga bekerja di agent mana pun.
+Folder berawalan `_` bukan klien dan tidak pernah diproses. Folder milik agent (`.trae/`, `.zcode/`, `.claude/`, `.agents/`, dan sejenisnya) ada di `.gitignore` dan tidak ikut repo. Semua yang dibutuhkan pipeline ada di `alat/`, `aturan/`, `perintah/`, `skills/`, dan `klien/`, sehingga bekerja di agent mana pun.
+
+## Skill wajib
+
+Skill pipeline **wajib** dan ikut di repo, folder `skills/`:
+
+| Skill | Status | Peran |
+|---|---|---|
+| `dci-seo-auditor` | WAJIB, muat pertama | Skill induk: urutan pipeline, rujukan aturan dan alat |
+| `antislop-copywriting` + `antislop` | WAJIB | Filter anti-deteksi inti saat humanize (Tahap 3) |
+| `verification-before-completion` | WAJIB | Bukti terukur sebelum klaim selesai (Tahap 5) |
+| `blog-seo-check`, `blog-write`, `blog-outline` | OPSIONAL | Bila tersedia di komputer operator; hasilnya dipetakan ke checklist `AGENT.md` |
+
+Cara memuat: baca berkas `skills/<nama>/SKILL.md` langsung (agent apa pun), atau pasang ke folder skill agent bila mekanismenya mendukung. Aturan isi tetap menang: bila bertentangan dengan `AGENT.md` Section 11, Section 11 yang berlaku.
 
 ## Memulai
 

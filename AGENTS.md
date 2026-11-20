@@ -11,12 +11,13 @@ Bila tugasnya mengerjakan, mengaudit, atau memeriksa artikel klien (`klien/<Nama
 
 1. `AGENT.md`: pipeline, checklist, aturan konten (Section 11), dan mode pintasan `/artikel` (Section 10).
 2. `aturan/kerja-tanpa-skill.md`: metode menulis ulang, aturan fakta, disiplin bukti, berkas meta, dan aturan kanibalisasi.
+3. Muat skill wajib dari folder `skills/` repo ini: `skills/dci-seo-auditor/SKILL.md` (induk), `skills/antislop-copywriting/SKILL.md` + `skills/antislop/SKILL.md` (Tahap humanize), dan `skills/verification-before-completion/SKILL.md` (sebelum klaim selesai).
 
 Untuk tugas lain di repo ini (misalnya mengubah skrip di `alat/`), berkas di atas tidak perlu dibaca. Setelah mengubah skrip, jalankan `python -I -X utf8 alat/uji-tools.py`.
 
 ## Hal yang tidak boleh ditawar
 
-- Skill tidak wajib. Jangan mengunduh skill, dan jangan berhenti bila skill tidak ada.
+- Skill wajib adalah skill yang ada di folder `skills/` repo ini. Muat dengan membaca `SKILL.md`-nya. Jangan mengunduh skill lain dari luar repo, dan jangan menyebut pekerjaan selesai bila skill wajib belum dimuat.
 - Jangan menyatakan artikel lulus sebelum `python -I -X utf8 alat/cek-artikel.py "<artikel>"` (atau `python3 -I -X utf8 alat/cek-artikel.py "<artikel>"` di macOS/Linux) dijalankan pada berkas terbaru dan menunjukkan `0 FAIL`. Di macOS atau Linux pakai `python3`.
 - Jangan mengarang statistik, testimoni, nama, harga, atau fakta kota. Tidak ada sumber, tidak ditulis.
 - Draft asli tidak ditimpa. Hasil akhir disimpan sebagai `<nama> - Humanized.txt`.

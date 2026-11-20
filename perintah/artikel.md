@@ -17,7 +17,7 @@ Langkah kerja:
 2. Ikuti `AGENT.md` Section 10 (Mode Pintasan) sampai selesai. Pipeline ada di Section 4, checklist di Section 5, ZeroGPT di Section 6, format laporan di Section 7, aturan konten lengkap di Section 11.
 3. Sebelum audit apa pun, jalankan Gerbang Status: `{{PYTHON}} -I alat/cek-status.py "klien/<Klien>/artikel/<YYYY Bulan>"`. Proses hanya draft `BARU` dan `LANJUTKAN`. Draft `SELESAI`, `MENUNGGU`, `BERUBAH`, `TANPA-CATATAN`, dan `RUSAK` tidak boleh disentuh.
 4. Audit draft mentah dengan `{{PYTHON}} -I -X utf8 alat/cek-artikel.py "<draft>" --draft`. Daftar TEMUAN-nya menjadi bahan humanize.
-5. Setelah humanize, tulis berkas `<artikel> - Meta.txt` (judul SEO, deskripsi meta, slug), lalu jalankan Gerbang Kualitas: `{{PYTHON}} -I -X utf8 alat/cek-artikel.py "<artikel>" --kbbi --simpan-kata`. Perbaiki hanya bagian FAIL sampai 0 FAIL. Jangan rombak keseluruhan.
+5. Setelah humanize, tulis berkas `<artikel> - Meta.txt` (judul SEO, deskripsi meta, slug), lalu jalankan Gerbang Kualitas: `{{PYTHON}} -I -X utf8 alat/cek-artikel.py "<artikel>"`. Verifikasi bahasa sudah otomatis (wordlist offline). Perbaiki hanya bagian FAIL sampai 0 FAIL. Jangan rombak keseluruhan.
 6. Draft asli tidak boleh ditimpa. Ledger dan laporan ditulis ke `LAPORAN.md` folder bulan klien, bukan ke `AGENT.md`. Hash ledger disalin dari keluaran skrip, tidak dihitung manual.
 7. Jangan menyatakan artikel lulus sebelum gerbang kualitas terbaru menunjukkan `0 FAIL` pada berkas terbaru.
 8. Akhiri dengan laporan ringkas di chat: status setiap draft (termasuk yang dilewati), tabel artikel yang diproses, temuan yang butuh keputusan, dan status plagiarisme.

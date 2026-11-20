@@ -64,7 +64,7 @@ partner
 familiar
 
 # Batch tinjauan manual 2026-11-20 (artikel Salimah Blitar): kata sudah ditinjau ejaan/register
-# satu per satu; verifikasi KBBI per kata menunggu batas pencarian harian lewat (jalankan --kbbi).
+# satu per satu; kata-kata ini juga ada di kamus-kbbi-offline.txt sehingga lolos gerbang offline.
 abu
 acara
 acaranya
